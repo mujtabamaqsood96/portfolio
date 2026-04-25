@@ -1,0 +1,162 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import { skillGroups } from "@data/skills.ts";
+---
+
+<section id="skills" class="section-pad">
+  <div class="container-page">
+    <SectionHeading
+      label="skills"
+      title="Tools, technologies & languages."
+      subtitle="The hardware and software stack I use day-to-day, plus the languages I speak."
+    />
+
+    {
+      skillGroups.length > 0 ? (
+        <div class="skills__grid">
+          {
+            skillGroups.map((group, i) => (
+              <article
+                class="skills__group card-glow"
+                data-reveal
+                style={`transition-delay:${i * 80}ms`}
+              >
+                <header class="skills__head">
+                  <span class="skills__head-icon">
+                    <Icon name={group.icon} />
+                  </span>
+                  <h3 class="skills__title">{group.title}</h3>
+                </header>
+                <ul class="skills__list">
+                  {group.skills.map((s) => (
+                    <li class="skills__item">
+                      {s.icon && (
+                        <span class="skills__icon">
+                          <Icon name={s.icon} />
+                        </span>
+                      )}
+                      <span>{s.name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+      ) : (
+        <p class="section-empty card-glow" data-reveal>
+          Skills will be listed here after the next profile update.
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .skills__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .section-empty {
+    margin: 0;
+    padding: 1.1rem 1.2rem;
+    color: var(--color-fg-muted);
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 640px) {
+    .skills__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .skills__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .skills__group {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .skills__head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .skills__head-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(167, 139, 250, 0.18));
+    color: var(--color-accent);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+  }
+
+  .skills__head-icon :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .skills__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+
+  .skills__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .skills__item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 8px;
+    color: var(--color-fg-muted);
+    font-size: 0.875rem;
+    border: 1px solid transparent;
+    transition: all 180ms ease;
+  }
+
+  .skills__item:hover {
+    color: var(--color-fg);
+    background-color: rgba(255, 255, 255, 0.02);
+    border-color: var(--color-border);
+  }
+
+  .skills__icon {
+    width: 18px;
+    height: 18px;
+    display: grid;
+    place-items: center;
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .skills__icon :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+</style>

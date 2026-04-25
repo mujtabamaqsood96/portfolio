@@ -1,0 +1,323 @@
+---
+import { Icon } from "astro-icon/components";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Footer from "@components/layout/Footer.astro";
+import Navbar from "@components/layout/Navbar.astro";
+import { getProjectBySlug, projects } from "@data/projects.ts";
+import { profile } from "@data/profile.ts";
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug = "" } = Astro.params;
+const project = getProjectBySlug(slug);
+if (!project) {
+  return Astro.redirect("/404");
+}
+
+const pageTitle = `${project.title} — ${profile.name}`;
+const pageDesc = project.summary.slice(0, 155) + (project.summary.length > 155 ? "…" : "");
+const path = `/projects/${project.slug}/`;
+const highlights = project.highlights?.filter(Boolean) ?? [];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} path={path}>
+  <Navbar />
+  <main id="main" class="section-pad project-detail">
+    <div class="container-page">
+      <nav class="project-detail__breadcrumbs" aria-label="Breadcrumb">
+        <a href="/" class="project-detail__crumb">Home</a>
+        <span class="project-detail__crumb-sep" aria-hidden="true">/</span>
+        <a href="/#projects" class="project-detail__crumb">Projects</a>
+        <span class="project-detail__crumb-sep" aria-hidden="true">/</span>
+        <span class="project-detail__crumb project-detail__crumb--current">{project.title}</span>
+      </nav>
+
+      <header class="project-detail__head card-glow" data-reveal>
+        <div class="project-detail__head-top">
+          <span class="project-detail__icon" aria-hidden="true">
+            <Icon name={project.icon} />
+          </span>
+          <div>
+            <p class="mono-tag mb-2" aria-hidden="true">// project</p>
+            <h1 class="project-detail__title">{project.title}</h1>
+            <p class="project-detail__meta">
+              <span class="project-detail__year">{project.year}</span>
+              {
+                project.status && (
+                  <span
+                    class:list={[
+                      "project-detail__status",
+                      `project-detail__status--${project.status.toLowerCase().replace(/\s+/g, "-")}`,
+                    ]}
+                  >
+                    {project.status}
+                  </span>
+                )
+              }
+            </p>
+          </div>
+        </div>
+
+        {
+          highlights.length > 0 && (
+            <ul class="project-detail__highlights" aria-label="Highlights">
+              {highlights.map((h) => (
+                <li>{h}</li>
+              ))}
+            </ul>
+          )
+        }
+      </header>
+
+      {
+        project.image && (
+          <figure class="project-detail__figure card-glow" data-reveal>
+            <img
+              class="project-detail__image"
+              src={project.image.src}
+              alt={project.image.alt}
+              width={project.image.width ?? 1200}
+              height={project.image.height ?? 750}
+              loading="eager"
+              decoding="async"
+            />
+            <figcaption class="project-detail__caption">{project.image.alt}</figcaption>
+          </figure>
+        )
+      }
+
+      <div class="project-detail__content card-glow" data-reveal>
+        <p class="project-detail__summary">{project.summary}</p>
+        {
+          (project.body && project.body.length > 0
+            ? project.body
+            : []
+          ).map((para) => <p class="project-detail__body-p">{para}</p>)
+        }
+
+        <h2 class="project-detail__h2">Technologies</h2>
+        <ul class="project-detail__tech" aria-label="Technologies used">
+          {project.tech.map((t) => (
+            <li class="chip">{t}</li>
+          ))}
+        </ul>
+
+        {
+          (() => {
+            const validLinks = (project.links ?? []).filter((l) => l.href && l.href.trim() !== "#");
+            if (validLinks.length === 0) return null;
+            return (
+              <footer class="project-detail__links">
+                {validLinks.map((l) => (
+                  <a
+                    href={l.href}
+                    class="project-detail__link btn btn-ghost"
+                    target={l.href.startsWith("http") ? "_blank" : undefined}
+                    rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  >
+                    {l.icon && <Icon name={l.icon} />}
+                    {l.label}
+                  </a>
+                ))}
+              </footer>
+            );
+          })()
+        }
+
+        <p class="project-detail__back">
+          <a href="/#projects" class="btn btn-primary">← All projects</a>
+        </p>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .project-detail {
+    padding-top: 2.5rem;
+  }
+
+  .project-detail__breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+    margin: 0 0 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-fg-subtle);
+  }
+
+  .project-detail__crumb {
+    color: var(--color-fg-muted);
+    text-decoration: none;
+  }
+
+  .project-detail__crumb:hover {
+    color: var(--color-accent);
+  }
+
+  .project-detail__crumb--current {
+    color: var(--color-fg);
+    max-width: 100%;
+  }
+
+  .project-detail__crumb-sep {
+    opacity: 0.5;
+  }
+
+  .project-detail__head {
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-detail__head-top {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .project-detail__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(167, 139, 250, 0.15));
+    color: var(--color-accent);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    flex-shrink: 0;
+  }
+
+  .project-detail__icon :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+
+  .project-detail__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-fg);
+  }
+
+  .project-detail__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 0.5rem 0 0;
+  }
+
+  .project-detail__year {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-fg-subtle);
+  }
+
+  .project-detail__status {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+  }
+
+  .project-detail__status--shipped {
+    border-color: rgba(34, 197, 94, 0.4);
+    color: #4ade80;
+    background-color: rgba(34, 197, 94, 0.08);
+  }
+
+  .project-detail__highlights {
+    margin: 1.25rem 0 0;
+    padding: 0 0 0 1.1rem;
+    color: var(--color-fg-muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .project-detail__highlights li {
+    margin: 0.25rem 0;
+  }
+
+  .project-detail__figure {
+    margin: 0 0 1.25rem;
+    padding: 0.75rem;
+    overflow: hidden;
+  }
+
+  .project-detail__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0.65rem;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .project-detail__caption {
+    margin: 0.6rem 0.25rem 0;
+    font-size: 0.78rem;
+    color: var(--color-fg-subtle);
+    line-height: 1.4;
+  }
+
+  .project-detail__content {
+    padding: 1.5rem;
+  }
+
+  .project-detail__summary {
+    margin: 0 0 1rem;
+    color: var(--color-fg);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .project-detail__body-p {
+    margin: 0 0 1rem;
+    color: var(--color-fg-muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .project-detail__h2 {
+    margin: 1.5rem 0 0.65rem;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+
+  .project-detail__tech {
+    list-style: none;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .project-detail__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .project-detail__link :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .project-detail__back {
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,270 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import { experience } from "@data/experience.ts";
+---
+
+<section id="experience" class="section-pad">
+  <div class="container-page">
+    <SectionHeading
+      label="experience"
+      title="Where I've been working & contributing."
+      subtitle="Industry, student leadership, and community — a timeline of building, shipping, and teaching."
+    />
+
+    {
+      experience.length > 0 ? (
+        <ol class="timeline">
+          {
+            experience.map((item, idx) => (
+              <li class="timeline__item" data-reveal style={`transition-delay:${idx * 80}ms`}>
+                <span class="timeline__rail" aria-hidden="true">
+                  <span class="timeline__node">
+                    <Icon name={item.icon ?? "tabler:briefcase"} />
+                  </span>
+                </span>
+
+                <article class="timeline__card card-glow">
+                  <header class="timeline__head">
+                    <div>
+                      <h3 class="timeline__company">
+                        {item.url ? (
+                          <a href={item.url} target="_blank" rel="noopener noreferrer">
+                            {item.company}
+                            <Icon name="tabler:external-link" class="timeline__ext" />
+                          </a>
+                        ) : (
+                          item.company
+                        )}
+                      </h3>
+                      {item.location && (
+                        <p class="timeline__location">
+                          <Icon name="tabler:map-pin" />
+                          {item.location}
+                        </p>
+                      )}
+                    </div>
+                    {item.totalDuration && (
+                      <span class="chip">{item.totalDuration}</span>
+                    )}
+                  </header>
+
+                  <ol class="timeline__roles">
+                    {item.roles.map((role) => (
+                      <li class="timeline__role">
+                        <div class="timeline__role-head">
+                          <h4>{role.title}</h4>
+                          <span class="timeline__dates">
+                            {role.start} <span aria-hidden="true">→</span> {role.end}
+                            {role.duration && (
+                              <span class="timeline__dur"> · {role.duration}</span>
+                            )}
+                          </span>
+                        </div>
+                        {role.description && (
+                          <p class="timeline__desc">{role.description}</p>
+                        )}
+                      </li>
+                    ))}
+                  </ol>
+                </article>
+              </li>
+            ))
+          }
+        </ol>
+      ) : (
+        <p class="section-empty card-glow" data-reveal>
+          Experience entries will appear here once updated.
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .section-empty {
+    margin: 0;
+    padding: 1.1rem 1.2rem;
+    color: var(--color-fg-muted);
+    font-size: 0.95rem;
+  }
+
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .timeline__item {
+      grid-template-columns: 56px 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  .timeline__rail {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .timeline__rail::before {
+    content: "";
+    position: absolute;
+    top: 48px;
+    bottom: -2.5rem;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(34, 211, 238, 0.5),
+      rgba(167, 139, 250, 0.15) 70%,
+      transparent
+    );
+    transform: translateX(-50%);
+  }
+
+  .timeline__item:last-child .timeline__rail::before {
+    display: none;
+  }
+
+  .timeline__node {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-accent);
+    box-shadow: 0 0 0 4px rgba(10, 10, 15, 1), 0 0 20px -6px rgba(34, 211, 238, 0.5);
+    z-index: 1;
+  }
+
+  .timeline__node :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .timeline__card {
+    padding: 1.25rem 1.25rem 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .timeline__card {
+      padding: 1.5rem 1.75rem 1.25rem;
+    }
+  }
+
+  .timeline__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .timeline__company {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .timeline__company a {
+    color: var(--color-fg);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 180ms ease;
+  }
+
+  .timeline__company a:hover {
+    color: var(--color-accent);
+  }
+
+  .timeline__ext {
+    width: 14px !important;
+    height: 14px !important;
+    opacity: 0.6;
+  }
+
+  .timeline__location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0.35rem 0 0;
+    font-size: 0.825rem;
+    color: var(--color-fg-subtle);
+  }
+
+  .timeline__location :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .timeline__roles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .timeline__role {
+    padding-top: 1rem;
+    border-top: 1px dashed var(--color-border);
+  }
+
+  .timeline__roles > .timeline__role:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .timeline__role-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline__role-head h4 {
+    font-size: 0.975rem;
+    font-weight: 600;
+    color: var(--color-fg);
+    margin: 0;
+  }
+
+  .timeline__dates {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-fg-subtle);
+    letter-spacing: 0.02em;
+  }
+
+  .timeline__dur {
+    color: var(--color-accent);
+  }
+
+  .timeline__desc {
+    margin: 0;
+    color: var(--color-fg-muted);
+    font-size: 0.925rem;
+    line-height: 1.65;
+  }
+</style>

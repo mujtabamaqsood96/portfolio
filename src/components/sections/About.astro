@@ -1,0 +1,246 @@
+---
+import { Icon } from "astro-icon/components";
+import { profile } from "@data/profile.ts";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+
+const stats = [
+  { label: "Years building hardware/software", value: "3+", icon: "tabler:bolt" },
+  { label: "Active certifications", value: "4", icon: "tabler:certificate" },
+  { label: "Spoken languages", value: "5", icon: "tabler:world" },
+  { label: "Org leadership roles", value: "2", icon: "tabler:users" },
+];
+---
+
+<section id="about" class="section-pad">
+  <div class="container-page">
+    <SectionHeading
+      label="about"
+      title="Engineer at the intersection of silicon, code, and ideas."
+      subtitle="A short look at who I am and what I'm working on."
+    />
+
+    <div class="about__grid">
+      <article class="about__copy" data-reveal>
+        <p class="about__lead">
+          {profile.summary}
+        </p>
+
+        <ul class="about__highlights">
+          <li>
+            <Icon name="tabler:cpu" />
+            <span>
+              <strong>Hardware-first thinker.</strong>
+              Comfortable working from RTL up to cloud-connected applications.
+            </span>
+          </li>
+          <li>
+            <Icon name="tabler:brain" />
+            <span>
+              <strong>Edge AI focused.</strong>
+              Building tiny ML on-device with FPGAs and microcontrollers.
+            </span>
+          </li>
+          <li>
+            <Icon name="tabler:notebook" />
+            <span>
+              <strong>Teaches what I learn.</strong>
+              Authoring training content used by global engineering teams at Lattice.
+            </span>
+          </li>
+        </ul>
+      </article>
+
+      <aside class="about__side" data-reveal style="transition-delay:120ms">
+        <div class="about__terminal card-glow">
+          <header class="about__terminal-bar">
+            <span class="about__dot about__dot--r"></span>
+            <span class="about__dot about__dot--y"></span>
+            <span class="about__dot about__dot--g"></span>
+            <span class="about__terminal-title">about.sh</span>
+          </header>
+          <pre class="about__code"><code><span class="t-prompt">$</span> whoami
+<span class="t-out">{profile.name}</span>
+
+<span class="t-prompt">$</span> cat ~/role
+<span class="t-out">{profile.role}</span>
+
+<span class="t-prompt">$</span> cat ~/location
+<span class="t-out">{profile.location}</span>
+
+<span class="t-prompt">$</span> cat ~/now
+<span class="t-out">App. Eng. Intern @ Lattice Semiconductor</span>
+
+<span class="t-prompt">$</span> cat ~/focus
+<span class="t-out">FPGA · Edge AI · Embedded · IoT</span></code></pre>
+        </div>
+
+        <ul class="about__stats">
+          {
+            stats.map((s) => (
+              <li class="about__stat card-glow">
+                <Icon name={s.icon} />
+                <div>
+                  <strong>{s.value}</strong>
+                  <span>{s.label}</span>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .about__grid {
+      grid-template-columns: 1.15fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .about__lead {
+    max-width: 65ch;
+    color: var(--color-fg-muted);
+    font-size: 1.05rem;
+    line-height: 1.68;
+  }
+
+  .about__highlights {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .about__highlights li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    color: var(--color-fg-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .about__highlights :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--color-accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .about__highlights strong {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+
+  .about__side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .about__terminal {
+    overflow: hidden;
+  }
+
+  .about__terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0.9rem;
+    background-color: var(--color-bg-elev);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .about__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+  }
+
+  .about__dot--r {
+    background: #ef4444;
+  }
+  .about__dot--y {
+    background: #eab308;
+  }
+  .about__dot--g {
+    background: #22c55e;
+  }
+
+  .about__terminal-title {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-fg-subtle);
+  }
+
+  .about__code {
+    margin: 0;
+    padding: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-fg);
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+
+  :global(.t-prompt) {
+    color: var(--color-accent);
+    user-select: none;
+  }
+
+  :global(.t-out) {
+    color: var(--color-fg-muted);
+  }
+
+  .about__stats {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .about__stat {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.95rem 1rem;
+  }
+
+  .about__stat :global(svg) {
+    width: 22px;
+    height: 22px;
+    color: var(--color-accent-2);
+    flex-shrink: 0;
+  }
+
+  .about__stat strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .about__stat span {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-fg-subtle);
+    margin-top: 0.25rem;
+    line-height: 1.3;
+  }
+</style>

@@ -1,0 +1,503 @@
+---
+import { Icon } from "astro-icon/components";
+import { profile } from "@data/profile.ts";
+import { recommendations } from "@data/recommendations.ts";
+import { certifications, honors } from "@data/education.ts";
+
+const impactCards = [
+  {
+    icon: "tabler:certificate",
+    value: `${certifications.length}+`,
+    label: "Certifications earned",
+  },
+  {
+    icon: "tabler:message-circle",
+    value: `${recommendations.length}`,
+    label: "Professional recommendations",
+  },
+  {
+    icon: "tabler:trophy",
+    value: `${honors.length}+`,
+    label: "Honors and awards",
+  },
+];
+---
+
+<section id="top" class="hero">
+  <div class="container-page hero__inner">
+    <div class="hero__content">
+      <p class="mono-tag hero__greeting" data-reveal>
+        <span class="hero__dot" aria-hidden="true"></span>
+        Available for graduate roles · 2026
+      </p>
+
+      <h1 class="hero__name" data-reveal style="transition-delay:80ms">
+        <span class="text-gradient">{profile.firstName}</span>
+        <span class="text-fg">{profile.lastName}</span>
+      </h1>
+
+      <p class="hero__role" data-reveal style="transition-delay:160ms">
+        <span class="hero__prompt">&gt;</span>
+        <span id="hero-typewriter" class="cursor-blink">{profile.taglineRotators[0]}</span>
+      </p>
+
+      <div class="hero__chips" data-reveal style="transition-delay:200ms">
+        <span class="hero__chip">Specialization: Intelligent Robotics</span>
+        <span class="hero__chip">Data Challenge 5.0 finalist</span>
+        <span class="hero__chip">Open to graduate roles 2026</span>
+      </div>
+
+      <p class="hero__sub" data-reveal style="transition-delay:240ms">
+        {profile.shortSummary}
+      </p>
+
+      <div class="hero__cta" data-reveal style="transition-delay:320ms">
+        <a href="#contact" class="btn btn-primary">
+          <Icon name="tabler:mail" />
+          Contact Me
+        </a>
+        <a href="#projects" class="btn btn-ghost">
+          <Icon name="tabler:rocket" />
+          View My Work
+        </a>
+      </div>
+
+      <ul class="hero__meta" data-reveal style="transition-delay:400ms">
+        <li>
+          <Icon name="tabler:map-pin" />
+          {profile.location}
+        </li>
+        <li>
+          <Icon name="tabler:school" />
+          {profile.university}
+        </li>
+        <li>
+          <Icon name="tabler:briefcase" />
+          Lattice Semiconductor
+        </li>
+      </ul>
+
+      <div class="hero__highlights" data-reveal style="transition-delay:480ms">
+        {
+          impactCards.map((card) => (
+            <article class="hero__highlight card-glow">
+              <span class="hero__highlight-icon">
+                <Icon name={card.icon} />
+              </span>
+              <div>
+                <p class="hero__highlight-value">{card.value}</p>
+                <p class="hero__highlight-label">{card.label}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <aside class="hero__visual" data-reveal style="transition-delay:420ms">
+      <div class="hero__photo-wrap card-glow">
+        <img
+          src={profile.photo}
+          alt={`${profile.name} portrait`}
+          class="hero__photo"
+          loading="eager"
+          onerror="this.onerror=null;this.src='/portrait/profile-placeholder.svg';"
+        />
+      </div>
+      <div class="hero__visual-note">
+        <Icon name="tabler:circle-check" />
+        <span>Application Engineer Intern · Lattice Semiconductor</span>
+      </div>
+    </aside>
+
+    <a href="#about" class="hero__scroll" aria-label="Scroll to About">
+      <span>Scroll</span>
+      <Icon name="tabler:chevron-down" />
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: 6rem 4rem;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(34, 211, 238, 0.12), transparent 45%),
+      radial-gradient(circle at 80% 70%, rgba(167, 139, 250, 0.1), transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+      gap: 2.75rem;
+    }
+  }
+
+  .hero__content {
+    max-width: 52rem;
+  }
+
+  .hero__greeting {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 9999px;
+    background-color: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background-color: #22c55e;
+    box-shadow: 0 0 10px #22c55e;
+    animation: pulse-dot 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.25);
+      opacity: 0.7;
+    }
+  }
+
+  .hero__name {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 9vw, 6rem);
+    line-height: 0.95;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin: 0;
+  }
+
+  .hero__name span + span {
+    display: block;
+  }
+
+  .hero__role {
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: clamp(0.95rem, 1.6vw, 1.125rem);
+    color: var(--color-fg-muted);
+  }
+
+  .hero__prompt {
+    color: var(--color-accent);
+    margin-right: 0.5rem;
+  }
+
+  .hero__sub {
+    margin-top: 1.5rem;
+    max-width: 38rem;
+    font-size: clamp(1rem, 1.4vw, 1.125rem);
+    line-height: 1.65;
+    color: var(--color-fg-muted);
+  }
+
+  .hero__chips {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    max-width: 52rem;
+  }
+
+  .hero__chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--color-fg-muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.02em;
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .hero__cta :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .hero__meta {
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 1.75rem;
+    color: var(--color-fg-muted);
+    font-size: 0.875rem;
+  }
+
+  .hero__meta li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hero__meta :global(svg) {
+    width: 16px;
+    height: 16px;
+    color: var(--color-accent);
+  }
+
+  .hero__highlights {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    max-width: 48rem;
+  }
+
+  @media (min-width: 768px) {
+    .hero__highlights {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .hero__highlight {
+    padding: 0.95rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .hero__highlight-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(167, 139, 250, 0.15));
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .hero__highlight-icon :global(svg) {
+    width: 17px;
+    height: 17px;
+  }
+
+  .hero__highlight-value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-fg);
+    line-height: 1.2;
+  }
+
+  .hero__highlight-label {
+    margin: 0.2rem 0 0;
+    font-size: 0.76rem;
+    color: var(--color-fg-subtle);
+    font-family: var(--font-mono);
+  }
+
+  .hero__visual {
+    width: min(100%, 360px);
+    margin: 0 auto;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__visual {
+      width: min(100%, 420px);
+      margin: 0 0 0 auto;
+    }
+  }
+
+  .hero__photo-wrap {
+    position: relative;
+    padding: 0.6rem;
+    border-radius: 1.1rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)),
+      var(--color-surface);
+    overflow: hidden;
+  }
+
+  .hero__photo-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(34, 211, 238, 0.45) 80deg,
+      rgba(167, 139, 250, 0.35) 180deg,
+      transparent 260deg
+    );
+    animation: spin-ring 14s linear infinite;
+    z-index: 0;
+  }
+
+  .hero__photo-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: 1rem;
+    background: var(--color-surface);
+    z-index: 1;
+  }
+
+  .hero__photo {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.9rem;
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .hero__visual-note {
+    margin-top: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--color-fg-subtle);
+    font-family: var(--font-mono);
+    border: 1px solid var(--color-border);
+    background-color: rgba(255, 255, 255, 0.02);
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+  }
+
+  .hero__visual-note :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  @keyframes spin-ring {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .hero__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--color-fg-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    animation: hero-bounce 2.6s ease-in-out infinite;
+  }
+
+  .hero__scroll :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .hero__scroll:hover {
+    color: var(--color-accent);
+  }
+
+  @keyframes hero-bounce {
+    0%,
+    100% {
+      transform: translate(-50%, 0);
+    }
+    50% {
+      transform: translate(-50%, 6px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__scroll,
+    .hero__dot,
+    .hero__photo-wrap::before {
+      animation: none;
+    }
+  }
+</style>
+
+<script define:vars={{ rotators: [...profile.taglineRotators] }}>
+  // Typewriter effect for the hero subtitle. No external lib.
+  const el = document.getElementById("hero-typewriter");
+  if (el && Array.isArray(rotators) && rotators.length > 1) {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduced) {
+      let phraseIdx = 0;
+      let charIdx = rotators[0].length;
+      let deleting = false;
+
+      const tick = () => {
+        const phrase = rotators[phraseIdx];
+        if (!deleting) {
+          charIdx++;
+          el.textContent = phrase.slice(0, charIdx);
+          if (charIdx >= phrase.length) {
+            deleting = true;
+            setTimeout(tick, 2600);
+            return;
+          }
+          setTimeout(tick, 55 + Math.random() * 40);
+        } else {
+          charIdx--;
+          el.textContent = phrase.slice(0, charIdx);
+          if (charIdx <= 0) {
+            deleting = false;
+            phraseIdx = (phraseIdx + 1) % rotators.length;
+            setTimeout(tick, 240);
+            return;
+          }
+          setTimeout(tick, 28);
+        }
+      };
+      setTimeout(tick, 1800);
+    }
+  }
+</script>

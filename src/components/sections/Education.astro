@@ -1,0 +1,416 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import { education, certifications, honors } from "@data/education.ts";
+
+const VISIBLE_CERTIFICATIONS = 5;
+const topCertifications = certifications.slice(0, VISIBLE_CERTIFICATIONS);
+const remainingCertifications = certifications.slice(VISIBLE_CERTIFICATIONS);
+---
+
+<section id="education" class="section-pad">
+  <div class="container-page">
+    <SectionHeading
+      label="education & credentials"
+      title="Academic foundation, certifications, and recognition."
+      subtitle="My ongoing degree at UTP, hands-on certifications, and a few moments I'm proud of."
+    />
+
+    <div class="edu__grid">
+      <!-- Degree card (spans full width on its own row) -->
+      <article class="edu__degree card-glow" data-reveal>
+        {
+          education.map((e) => (
+            <div class="edu__degree-row">
+              <span class="edu__degree-icon">
+                <Icon name={e.icon ?? "tabler:school"} />
+              </span>
+              <div class="edu__degree-body">
+                <h3>{e.institution}</h3>
+                <p class="edu__degree-line">
+                  {e.degree} · <span>{e.field}</span>
+                </p>
+                <p class="edu__degree-dates">
+                  <span>
+                    <Icon name="tabler:calendar" />
+                    {e.start} → {e.end}
+                  </span>
+                  {e.location && (
+                    <span>
+                      <Icon name="tabler:map-pin" />
+                      {e.location}
+                    </span>
+                  )}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </article>
+
+      <!-- Certifications -->
+      <section class="edu__col" aria-labelledby="edu-certs">
+        <h3 class="edu__col-title" id="edu-certs" data-reveal>
+          <Icon name="tabler:certificate" />
+          Certifications
+        </h3>
+        <ul class="edu__list">
+          {
+            topCertifications.map((c, i) => (
+              <li
+                class="edu__list-item card-glow"
+                data-reveal
+                style={`transition-delay:${i * 60}ms`}
+              >
+                <span class="edu__list-icon">
+                  <Icon name={c.icon ?? "tabler:certificate"} />
+                </span>
+                <div>
+                  <p class="edu__list-name">{c.name}</p>
+                  {c.issuer && <p class="edu__list-issuer">{c.issuer}</p>}
+                  {(c.issued || c.credentialId) && (
+                    <p class="edu__list-meta">
+                      {c.issued && <span>Issued {c.issued}</span>}
+                      {c.issued && c.credentialId && <span class="edu__list-dot">·</span>}
+                      {c.credentialId && (
+                        <span class="edu__list-credential">ID {c.credentialId}</span>
+                      )}
+                    </p>
+                  )}
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        {
+          remainingCertifications.length > 0 && (
+            <details class="edu__more" data-reveal>
+              <summary class="edu__more-summary">
+                <Icon name="tabler:chevron-down" />
+                Show {remainingCertifications.length} more certifications
+              </summary>
+              <ul class="edu__list edu__list--more">
+                {remainingCertifications.map((c) => (
+                  <li class="edu__list-item card-glow">
+                    <span class="edu__list-icon">
+                      <Icon name={c.icon ?? "tabler:certificate"} />
+                    </span>
+                    <div>
+                      <p class="edu__list-name">{c.name}</p>
+                      {c.issuer && <p class="edu__list-issuer">{c.issuer}</p>}
+                      {(c.issued || c.credentialId) && (
+                        <p class="edu__list-meta">
+                          {c.issued && <span>Issued {c.issued}</span>}
+                          {c.issued && c.credentialId && <span class="edu__list-dot">·</span>}
+                          {c.credentialId && (
+                            <span class="edu__list-credential">ID {c.credentialId}</span>
+                          )}
+                        </p>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )
+        }
+      </section>
+
+      <!-- Honors -->
+      <section class="edu__col" aria-labelledby="edu-honors">
+        <h3 class="edu__col-title" id="edu-honors" data-reveal>
+          <Icon name="tabler:trophy" />
+          Honors & Awards
+        </h3>
+        <ul class="edu__list">
+          {
+            honors.map((h, i) => (
+              <li
+                class="edu__list-item card-glow"
+                data-reveal
+                style={`transition-delay:${i * 60}ms`}
+              >
+                <span class="edu__list-icon">
+                  <Icon name={h.icon ?? "tabler:award"} />
+                </span>
+                <div>
+                  <p class="edu__list-name">{h.title}</p>
+                  {h.issuer && (
+                    <p class="edu__list-issuer">
+                      {h.issuer}
+                      {h.date && <span class="edu__list-date"> · {h.date}</span>}
+                    </p>
+                  )}
+                  {h.image && (
+                    <a
+                      href={h.image.src}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="edu__honor-photo-link"
+                      aria-label={`View ${h.title} image`}
+                    >
+                      <img
+                        src={h.image.src}
+                        alt={h.image.alt}
+                        class="edu__honor-photo"
+                        width={1200}
+                        height={800}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  )}
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </div>
+</section>
+
+<style>
+  .edu__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .edu__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+    .edu__degree {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* Degree card */
+  .edu__degree {
+    padding: 1.75rem;
+  }
+
+  .edu__degree-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .edu__degree-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(167, 139, 250, 0.18));
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .edu__degree-icon :global(svg) {
+    width: 26px;
+    height: 26px;
+  }
+
+  .edu__degree-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .edu__degree-body h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .edu__degree-line {
+    margin: 0.4rem 0 0;
+    color: var(--color-fg-muted);
+    font-size: 0.95rem;
+  }
+
+  .edu__degree-line span {
+    color: var(--color-accent);
+  }
+
+  .edu__degree-dates {
+    margin: 0.65rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-fg-subtle);
+  }
+
+  .edu__degree-dates span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .edu__degree-dates :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--color-accent);
+  }
+
+  /* Columns (certs / honors) */
+  .edu__col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .edu__col-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 1.25rem;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+
+  .edu__col-title :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--color-accent);
+  }
+
+  .edu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .edu__list-item {
+    display: flex;
+    gap: 0.85rem;
+    padding: 1rem 1.1rem;
+  }
+
+  .edu__list-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background-color: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .edu__list-icon :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .edu__list-name {
+    margin: 0;
+    font-size: 0.925rem;
+    color: var(--color-fg);
+    font-weight: 500;
+    line-height: 1.45;
+  }
+
+  .edu__list-issuer {
+    margin: 0.3rem 0 0;
+    font-size: 0.8rem;
+    color: var(--color-fg-subtle);
+  }
+
+  .edu__list-meta {
+    margin: 0.3rem 0 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.73rem;
+    color: var(--color-fg-subtle);
+    font-family: var(--font-mono);
+  }
+
+  .edu__list-dot {
+    color: var(--color-accent);
+  }
+
+  .edu__list-credential {
+    color: var(--color-accent-2);
+  }
+
+  .edu__more {
+    margin-top: 0.9rem;
+    border: 1px dashed var(--color-border-strong);
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.01);
+    padding: 0.2rem 0.6rem 0.75rem;
+  }
+
+  .edu__more-summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 0.65rem 0.2rem;
+    user-select: none;
+  }
+
+  .edu__more-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .edu__more-summary :global(svg) {
+    width: 14px;
+    height: 14px;
+    transition: transform 180ms ease;
+  }
+
+  .edu__more[open] .edu__more-summary :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  .edu__list--more {
+    margin-top: 0.2rem;
+  }
+
+  .edu__list-date {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+  }
+
+  .edu__honor-photo-link {
+    display: block;
+    margin-top: 0.65rem;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    max-width: 280px;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .edu__honor-photo-link:hover {
+    border-color: rgba(34, 211, 238, 0.45);
+    box-shadow: 0 6px 18px -10px rgba(34, 211, 238, 0.5);
+  }
+
+  .edu__honor-photo {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+</style>

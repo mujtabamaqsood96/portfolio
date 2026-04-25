@@ -1,0 +1,16 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# binary / generated assets
+public/resume.pdf
+public/og-image.svg
+public/favicon.svg
+
+# lockfiles
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

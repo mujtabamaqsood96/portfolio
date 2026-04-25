@@ -1,0 +1,195 @@
+---
+import "@/styles/global.css";
+import { profile } from "@data/profile.ts";
+import GridBackground from "@components/effects/GridBackground.astro";
+
+type Props = {
+  title?: string;
+  description?: string;
+  /** Path-relative to base, used for canonical/og:url. */
+  path?: string;
+};
+
+const {
+  title = profile.meta.siteTitle,
+  description = profile.meta.siteDescription,
+  path = "/",
+} = Astro.props as Props;
+
+const siteOrigin = Astro.site ?? "http://localhost:4321/";
+const canonical = new URL(path, siteOrigin).toString();
+const siteRoot = new URL("/", siteOrigin).toString();
+const ogImage = new URL("og/og-default.jpg", siteOrigin).toString();
+const personId = `${siteRoot}#person`;
+const websiteId = `${siteRoot}#website`;
+const jsonLdGraph: Record<string, unknown>[] = [
+  {
+    "@type": "Person",
+    "@id": personId,
+    name: profile.name,
+    jobTitle: profile.role,
+    url: siteRoot,
+    email: profile.email,
+    address: { "@type": "PostalAddress", addressLocality: profile.location },
+    alumniOf: { "@type": "EducationalOrganization", name: profile.university },
+    sameAs: [profile.socials.linkedin, profile.socials.github],
+  },
+  {
+    "@type": "WebSite",
+    "@id": websiteId,
+    name: profile.meta.siteTitle,
+    url: siteRoot,
+    publisher: { "@id": personId },
+  },
+];
+if (path === "/" || path === "") {
+  jsonLdGraph.push({
+    "@type": "ProfilePage",
+    url: canonical,
+    isPartOf: { "@id": websiteId },
+    mainEntity: { "@id": personId },
+  });
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0a0a0f" />
+
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <link rel="canonical" href={canonical} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={profile.meta.keywords.join(", ")} />
+    <meta name="author" content={profile.name} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:site_name" content={profile.name} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Fonts: preconnect + single stylesheet load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap"
+    />
+
+    <!-- Structured data: WebSite + Person + ProfilePage (home) -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@graph": jsonLdGraph,
+      })}
+    />
+  </head>
+
+  <body>
+    <GridBackground />
+
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:btn focus:btn-primary"
+    >
+      Skip to content
+    </a>
+
+    <div class="site-progress" aria-hidden="true">
+      <span class="site-progress__bar" id="site-progress-bar"></span>
+    </div>
+
+    <slot />
+
+    <button
+      id="back-to-top"
+      class="back-top"
+      type="button"
+      aria-label="Back to top"
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      ↑ Top
+    </button>
+
+    <script is:inline>
+      // Reveal-on-scroll: tiny IntersectionObserver shared across the page.
+      (() => {
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const els = document.querySelectorAll("[data-reveal]");
+        const sections = document.querySelectorAll("main > section");
+        if (reduced || !("IntersectionObserver" in window)) {
+          els.forEach((el) => el.classList.add("is-visible"));
+          sections.forEach((section) => section.classList.add("is-inview"));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: "0px 0px -10% 0px", threshold: 0.08 },
+        );
+        els.forEach((el) => io.observe(el));
+
+        // Section chapter rhythm highlight
+        const sectionIo = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              entry.target.classList.toggle("is-inview", entry.isIntersecting);
+            }
+          },
+          { rootMargin: "-35% 0px -45% 0px", threshold: 0.02 },
+        );
+        sections.forEach((section) => sectionIo.observe(section));
+      })();
+
+      // Scroll progress + back-to-top affordance.
+      (() => {
+        const bar = document.getElementById("site-progress-bar");
+        const backTop = document.getElementById("back-to-top");
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!bar || !backTop) return;
+
+        const onScroll = () => {
+          const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+          const showBackTop = window.scrollY > 560;
+          bar.style.transform = `scaleX(${progress})`;
+          backTop.classList.toggle("is-visible", showBackTop);
+          backTop.setAttribute("aria-hidden", showBackTop ? "false" : "true");
+          backTop.setAttribute("tabindex", showBackTop ? "0" : "-1");
+        };
+
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        backTop.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+        });
+      })();
+    </script>
+  </body>
+</html>

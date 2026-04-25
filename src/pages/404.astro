@@ -1,0 +1,72 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Navbar from "@components/layout/Navbar.astro";
+import Footer from "@components/layout/Footer.astro";
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="The page you requested could not be found."
+  path="/404"
+>
+  <Navbar />
+  <main id="main" class="not-found section-pad">
+    <div class="container-page">
+      <section class="not-found__card card-glow" data-reveal>
+        <p class="mono-tag" aria-hidden="true">// 404</p>
+        <h1>That page does not exist.</h1>
+        <p>
+          The URL may be outdated or typed incorrectly. You can return to the homepage and continue browsing
+          projects, experience, and contact details.
+        </p>
+        <div class="not-found__actions">
+          <a href="/" class="btn btn-primary">Go to homepage</a>
+          <a href="/#contact" class="btn btn-ghost">Jump to contact</a>
+        </div>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: calc(100svh - 64px);
+    display: grid;
+    align-items: center;
+  }
+
+  .not-found__card {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 2rem 1.4rem;
+  }
+
+  @media (min-width: 768px) {
+    .not-found__card {
+      padding: 2.4rem 2.2rem;
+    }
+  }
+
+  .not-found__card h1 {
+    margin: 0.4rem 0 0.9rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .not-found__card p {
+    margin: 0;
+    color: var(--color-fg-muted);
+    line-height: 1.7;
+    max-width: 60ch;
+  }
+
+  .not-found__actions {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+</style>

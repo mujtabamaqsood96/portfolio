@@ -1,0 +1,699 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import { projects } from "@data/projects.ts";
+
+const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort((a, b) =>
+  a.localeCompare(b, undefined, { sensitivity: "base" }),
+);
+---
+
+<section id="projects" class="section-pad" data-reveal>
+  <div class="container-page">
+    <SectionHeading
+      label="projects"
+      title="Things I've built (and things I'm building)."
+      subtitle="A mix of FPGA, embedded, edge AI, robotics, and cloud work focused on practical outcomes."
+    />
+
+    {
+      projects.length > 0 ? (
+        <div class="projects__filter-wrap" id="projects-filter-wrap" aria-label="Filter projects by technology">
+          <p class="projects__filter-label" id="projects-filter-label">
+            Filter by technology
+          </p>
+          <div class="projects__chips" role="group" aria-labelledby="projects-filter-label">
+            <button
+              type="button"
+              class="projects__chip is-active"
+              data-project-filter="all"
+              aria-pressed="true"
+            >
+              All
+            </button>
+            {
+              allTech.map((t) => (
+                <button
+                  type="button"
+                  class="projects__chip"
+                  data-project-filter={t}
+                  aria-pressed="false"
+                >
+                  {t}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+        <div class="projects__grid">
+          {
+            projects.map((p, i) => (
+              <article
+                class:list={["project card-glow", p.featured && "project--featured"]}
+                data-reveal
+                data-project-item
+                data-techn={JSON.stringify(p.tech)}
+                style={`transition-delay:${(i % 3) * 80}ms`}
+              >
+                <header class="project__head">
+                  <span class="project__icon">
+                    <Icon name={p.icon} />
+                  </span>
+                  <div class="project__head-text">
+                    <h3 class="project__title">{p.title}</h3>
+                    <p class="project__meta">
+                      <span class="project__year">{p.year}</span>
+                      {p.status && (
+                        <span class:list={["project__status", `project__status--${p.status.toLowerCase().replace(/\s+/g, "-")}`]}>
+                          {p.status}
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                  {p.featured && <span class="project__featured-tag">Featured</span>}
+                </header>
+
+                {p.image && (
+                  <figure class="project__media">
+                    <button
+                      type="button"
+                      class="project__image-btn"
+                      data-project-image
+                      data-project-image-src={p.image.src}
+                      data-project-image-alt={p.image.alt}
+                      aria-label={`Open larger preview for ${p.title}`}
+                    >
+                      <img
+                        src={p.image.src}
+                        alt={p.image.alt}
+                        class="project__image"
+                        width={p.image.width ?? 1200}
+                        height={p.image.height ?? 750}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </button>
+                  </figure>
+                )}
+
+                {p.highlights && p.highlights.filter(Boolean).length > 0 && (
+                  <ul class="project__highlights" aria-label={`${p.title} highlights`}>
+                    {p.highlights
+                      .filter((line): line is string => Boolean(line && line.trim()))
+                      .map((line) => (
+                        <li>{line}</li>
+                      ))}
+                  </ul>
+                )}
+
+                <p class="project__summary">{p.summary}</p>
+
+                <ul class="project__tech" aria-label="Technologies used">
+                  {p.tech.map((t) => (
+                    <li class="chip">{t}</li>
+                  ))}
+                </ul>
+
+                <p class="project__details-row">
+                  <a href={`/projects/${p.slug}/`} class="project__details">
+                    <Icon name="tabler:arrow-narrow-right" />
+                    View case study
+                  </a>
+                </p>
+
+                {(() => {
+                  const validLinks = (p.links ?? []).filter((l) => l.href && l.href.trim() !== "#");
+                  if (validLinks.length === 0) return null;
+                  return (
+                    <footer class="project__links">
+                      {validLinks.map((l) => (
+                        <a
+                          href={l.href}
+                          class="project__link"
+                          target={l.href.startsWith("http") ? "_blank" : undefined}
+                          rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                        >
+                          {l.icon && <Icon name={l.icon} />}
+                          <span>{l.label}</span>
+                          <Icon name="tabler:arrow-up-right" class="project__link-arrow" />
+                        </a>
+                      ))}
+                    </footer>
+                  );
+                })()}
+              </article>
+            ))
+          }
+        </div>
+      ) : (
+        <p class="section-empty card-glow" data-reveal>
+          Projects are being refreshed. Check back soon for updated case studies.
+        </p>
+      )
+    }
+
+  </div>
+</section>
+
+<style>
+  .projects__filter-wrap {
+    margin-bottom: 1.35rem;
+  }
+
+  .projects__filter-label {
+    margin: 0 0 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-fg-subtle);
+  }
+
+  .projects__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .projects__chip {
+    margin: 0;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--color-fg-muted);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition:
+      border-color 180ms ease,
+      color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .projects__chip:hover,
+  .projects__chip:focus-visible {
+    border-color: rgba(34, 211, 238, 0.45);
+    color: var(--color-fg);
+  }
+
+  .projects__chip.is-active {
+    border-color: rgba(34, 211, 238, 0.55);
+    background: rgba(34, 211, 238, 0.1);
+    color: var(--color-accent);
+  }
+
+  .projects__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .section-empty {
+    margin: 0;
+    padding: 1.1rem 1.2rem;
+    color: var(--color-fg-muted);
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 640px) {
+    .projects__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .projects__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .project {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 85% -10%, rgba(34, 211, 238, 0.15), transparent 42%);
+    opacity: 0;
+    transition: opacity 240ms ease;
+    pointer-events: none;
+  }
+
+  .project:hover::after {
+    opacity: 1;
+  }
+
+  .project--featured {
+    border-color: rgba(34, 211, 238, 0.35);
+  }
+
+  .project--featured::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(34, 211, 238, 0.45),
+      rgba(167, 139, 250, 0.35),
+      transparent 60%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .project__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .project__featured-tag {
+    margin-left: auto;
+    align-self: flex-start;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(34, 211, 238, 0.4);
+    background: rgba(34, 211, 238, 0.08);
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .project__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(167, 139, 250, 0.15));
+    color: var(--color-accent);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    flex-shrink: 0;
+  }
+
+  .project__icon :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .project__head-text {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .project__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--color-fg);
+    line-height: 1.35;
+  }
+
+  .project__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.4rem 0 0;
+  }
+
+  .project__year {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-fg-subtle);
+  }
+
+  .project__status {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    color: var(--color-fg-muted);
+  }
+
+  .project__status--shipped {
+    border-color: rgba(34, 197, 94, 0.4);
+    color: #4ade80;
+    background-color: rgba(34, 197, 94, 0.08);
+  }
+
+  .project__status--in-progress {
+    border-color: rgba(234, 179, 8, 0.4);
+    color: #facc15;
+    background-color: rgba(234, 179, 8, 0.08);
+  }
+
+  .project__status--concept {
+    border-color: rgba(167, 139, 250, 0.4);
+    color: #c4b5fd;
+    background-color: rgba(167, 139, 250, 0.08);
+  }
+
+  .project__status--award {
+    border-color: rgba(34, 211, 238, 0.5);
+    color: var(--color-accent);
+    background-color: rgba(34, 211, 238, 0.1);
+  }
+
+  .project__highlights {
+    margin: 0 0 0.75rem;
+    padding: 0 0 0 1rem;
+    color: var(--color-fg-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    flex: 0 0 auto;
+  }
+
+  .project__highlights li {
+    margin: 0.2rem 0;
+  }
+
+  .project__summary {
+    margin: 0 0 1rem;
+    color: var(--color-fg-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .project__details-row {
+    margin: 0 0 0.65rem;
+  }
+
+  .project__details {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .project__details :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .project__details:hover {
+    text-decoration: underline;
+  }
+
+  .project__media {
+    margin: 0 0 0.9rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .project__image-btn {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: zoom-in;
+  }
+
+  .project__image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    display: block;
+    transition: transform 260ms ease;
+  }
+
+  .project:hover .project__image {
+    transform: scale(1.03);
+  }
+
+  .project-lightbox {
+    border: none;
+    padding: 0;
+    background: transparent;
+    width: min(86vw, 880px);
+    max-width: 86vw;
+    margin: auto;
+    overflow: visible;
+  }
+
+  .project-lightbox[open] {
+    animation: lightbox-pop 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .project-lightbox::backdrop {
+    background: rgba(5, 8, 16, 0.72);
+    backdrop-filter: blur(6px) saturate(120%);
+  }
+
+  .project-lightbox__frame {
+    position: relative;
+    border: 1px solid rgba(34, 211, 238, 0.18);
+    border-radius: 1rem;
+    background: linear-gradient(180deg, #0d1019 0%, #0a0c14 100%);
+    box-shadow:
+      0 30px 80px -30px rgba(0, 0, 0, 0.7),
+      0 0 0 1px rgba(255, 255, 255, 0.02),
+      0 0 60px -20px rgba(34, 211, 238, 0.25);
+    padding: 0.85rem;
+  }
+
+  .project-lightbox__img {
+    display: block;
+    width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    background: #06080f;
+    border-radius: 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .project-lightbox__caption {
+    margin: 0.7rem 0.25rem 0.15rem;
+    color: var(--color-fg-muted);
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .project-lightbox__close {
+    position: absolute;
+    top: -0.85rem;
+    right: -0.85rem;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(15, 17, 26, 0.96);
+    color: #e5e7eb;
+    font-size: 1.05rem;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.6);
+    transition:
+      transform 160ms ease,
+      color 180ms ease,
+      border-color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .project-lightbox__close:hover,
+  .project-lightbox__close:focus-visible {
+    color: var(--color-accent);
+    border-color: rgba(34, 211, 238, 0.6);
+    background: rgba(17, 17, 24, 0.98);
+    transform: rotate(90deg);
+  }
+
+  @keyframes lightbox-pop {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-lightbox[open] {
+      animation: none;
+    }
+    .project-lightbox__close {
+      transition: none;
+    }
+    .project-lightbox__close:hover,
+    .project-lightbox__close:focus-visible {
+      transform: none;
+    }
+  }
+
+  .project__tech {
+    list-style: none;
+    margin: 0 0 0.75rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .project__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .project__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-fg-muted);
+    font-size: 0.8125rem;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .project__link :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .project__link:hover {
+    color: var(--color-accent);
+  }
+
+  .project__link-arrow {
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: all 200ms ease;
+  }
+
+  .project__link:hover .project__link-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+</style>
+
+<dialog id="project-lightbox" class="project-lightbox" aria-label="Project image preview">
+  <div class="project-lightbox__frame">
+    <button type="button" id="project-lightbox-close" class="project-lightbox__close" aria-label="Close image preview">
+      ×
+    </button>
+    <img id="project-lightbox-image" class="project-lightbox__img" src="" alt="" />
+    <p id="project-lightbox-caption" class="project-lightbox__caption"></p>
+  </div>
+</dialog>
+
+<script>
+  const lightbox = document.getElementById("project-lightbox") as HTMLDialogElement | null;
+  const lightboxImage = document.getElementById("project-lightbox-image") as HTMLImageElement | null;
+  const lightboxCaption = document.getElementById("project-lightbox-caption") as HTMLParagraphElement | null;
+  const lightboxClose = document.getElementById("project-lightbox-close") as HTMLButtonElement | null;
+  const imageTriggers = document.querySelectorAll<HTMLButtonElement>("[data-project-image]");
+
+  if (lightbox && lightboxImage && imageTriggers.length > 0) {
+    const openLightbox = (src: string, alt: string) => {
+      lightboxImage.src = src;
+      lightboxImage.alt = alt;
+      if (lightboxCaption) lightboxCaption.textContent = alt;
+      if (!lightbox.open) lightbox.showModal();
+    };
+
+    const closeLightbox = () => {
+      if (lightbox.open) lightbox.close();
+      lightboxImage.src = "";
+      lightboxImage.alt = "";
+      if (lightboxCaption) lightboxCaption.textContent = "";
+    };
+
+    imageTriggers.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const src = btn.dataset.projectImageSrc ?? "";
+        const alt = btn.dataset.projectImageAlt ?? "Project image";
+        if (!src) return;
+        openLightbox(src, alt);
+      });
+    });
+
+    lightboxClose?.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+    lightbox.addEventListener("close", () => {
+      lightboxImage.src = "";
+      lightboxImage.alt = "";
+      if (lightboxCaption) lightboxCaption.textContent = "";
+    });
+  }
+</script>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const root = document.getElementById("projects");
+    if (!root) return;
+    const items = root.querySelectorAll("[data-project-item]");
+    const chips = root.querySelectorAll("[data-project-filter]");
+
+    const apply = (/** @type {string} */ filter) => {
+      items.forEach((el) => {
+        const raw = el.getAttribute("data-techn");
+        let tags = [];
+        try {
+          tags = raw ? JSON.parse(raw) : [];
+        } catch {
+          tags = [];
+        }
+        const show = filter === "all" || tags.includes(filter);
+        if (show) {
+          el.removeAttribute("hidden");
+        } else {
+          el.setAttribute("hidden", "");
+        }
+      });
+      chips.forEach((c) => {
+        const f = c.getAttribute("data-project-filter") || "";
+        const isActive = f === filter;
+        c.setAttribute("aria-pressed", isActive ? "true" : "false");
+        c.classList.toggle("is-active", isActive);
+      });
+    };
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const f = chip.getAttribute("data-project-filter");
+        if (f) apply(f);
+      });
+    });
+  });
+</script>

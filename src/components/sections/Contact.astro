@@ -1,0 +1,242 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import { profile } from "@data/profile.ts";
+
+const contactCards = [
+  {
+    label: "Email",
+    value: profile.email,
+    href: profile.socials.email,
+    icon: "tabler:mail",
+    cta: "Send a message",
+  },
+  {
+    label: "Phone / WhatsApp",
+    value: profile.phone,
+    href: profile.socials.phone,
+    icon: "tabler:phone",
+    cta: "Give me a call",
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/mujtabamaqsood96",
+    href: profile.socials.linkedin,
+    icon: "simple-icons:linkedin",
+    cta: "Connect on LinkedIn",
+    external: true,
+  },
+  {
+    label: "GitHub",
+    value: "github.com/mujtabamaqsood96",
+    href: profile.socials.github,
+    icon: "simple-icons:github",
+    cta: "View my code",
+    external: true,
+  },
+];
+---
+
+<section id="contact" class="section-pad contact">
+  <div class="container-page">
+    <SectionHeading
+      label="contact"
+      title="Let's build something."
+      subtitle="Open to graduate roles, internships, FPGA / Edge-AI collaborations, and interesting problems. The fastest way to reach me is email."
+      align="center"
+    />
+
+    <div class="contact__cards">
+      {
+        contactCards.map((c, i) => (
+          <a
+            href={c.href}
+            class="contact__card card-glow"
+            data-reveal
+            style={`transition-delay:${i * 80}ms`}
+            target={c.external ? "_blank" : undefined}
+            rel={c.external ? "noopener noreferrer" : undefined}
+          >
+            <span class="contact__icon">
+              <Icon name={c.icon} />
+            </span>
+            <div class="contact__body">
+              <span class="contact__label">{c.label}</span>
+              <span class="contact__value">{c.value}</span>
+              <span class="contact__cta">
+                {c.cta}
+                <Icon name="tabler:arrow-up-right" />
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="contact__alt" data-reveal style="transition-delay:360ms">
+      <Icon name="tabler:school" />
+      Also reachable via my university email:
+      <a href={`mailto:${profile.universityEmail}`} class="contact__alt-link">
+        {profile.universityEmail}
+      </a>
+    </p>
+
+    <div class="contact__cta-row" data-reveal style="transition-delay:440ms">
+      <a href={profile.socials.email} class="btn btn-primary">
+        <Icon name="tabler:mail" />
+        Email Me
+      </a>
+      <a
+        href={profile.resumeHref}
+        class="btn btn-ghost"
+        download={!profile.resumeHref.startsWith("http") ? "" : undefined}
+        target={profile.resumeHref.startsWith("http") ? "_blank" : undefined}
+        rel={profile.resumeHref.startsWith("http") ? "noopener noreferrer" : undefined}
+      >
+        <Icon name="tabler:download" />
+        {profile.resumeHref.startsWith("http") ? "View CV" : "Download CV (PDF)"}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    position: relative;
+    padding-bottom: 6rem;
+  }
+
+  .contact__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .contact__cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .contact__cards {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .contact__card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: var(--color-fg);
+  }
+
+  .contact__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(167, 139, 250, 0.18));
+    color: var(--color-accent);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    flex-shrink: 0;
+  }
+
+  .contact__icon :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .contact__body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .contact__label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-fg-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .contact__value {
+    margin-top: 0.2rem;
+    font-size: 0.925rem;
+    color: var(--color-fg);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .contact__cta {
+    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    transition: transform 200ms ease;
+  }
+
+  .contact__cta :global(svg) {
+    width: 14px;
+    height: 14px;
+    transition: transform 200ms ease;
+  }
+
+  .contact__card:hover .contact__cta :global(svg) {
+    transform: translate(2px, -2px);
+  }
+
+  .contact__alt {
+    margin: 1.75rem 0 0;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-fg-subtle);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .contact__alt :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--color-accent);
+  }
+
+  .contact__alt-link {
+    color: var(--color-fg-muted);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--color-border-strong);
+    font-family: var(--font-mono);
+    transition: color 180ms ease, border-color 180ms ease;
+  }
+
+  .contact__alt-link:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .contact__cta-row {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .contact__cta-row :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+/**
+ * <Reveal> — wraps content with a fade-up-on-scroll effect.
+ *
+ * Uses [data-reveal] (styled in global.css) and a tiny IntersectionObserver
+ * loaded once globally from BaseLayout. No external libraries.
+ *
+ * Optional `delay` adds a per-element stagger (in ms).
+ */
+type Props = {
+  as?: keyof HTMLElementTagNameMap;
+  delay?: number;
+  class?: string;
+};
+const { as: Tag = "div", delay = 0, class: className = "" } = Astro.props as Props;
+const styleAttr = delay ? `transition-delay:${delay}ms` : undefined;
+---
+
+<Tag data-reveal class={className} style={styleAttr}>
+  <slot />
+</Tag>

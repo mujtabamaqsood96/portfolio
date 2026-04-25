@@ -1,0 +1,168 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import { recommendations } from "@data/recommendations.ts";
+---
+
+<section id="recommendations" class="section-pad">
+  <div class="container-page">
+    <SectionHeading
+      label="recommendations"
+      title="What people say about working with me."
+      subtitle="Recommendations from mentors and collaborators, sourced from my LinkedIn profile and formal recommendation letter."
+    />
+
+    {
+      recommendations.length > 0 ? (
+        <div class="recs__grid">
+          {
+            recommendations.map((r, i) => (
+              <article class="recs__card card-glow" data-reveal style={`transition-delay:${i * 90}ms`}>
+                <header class="recs__head">
+                  <span class="recs__quote-icon" aria-hidden="true">
+                    <Icon name="tabler:quote" />
+                  </span>
+                  <div class="recs__person">
+                    <h3>{r.recommenderName}</h3>
+                    <p class="recs__title">{r.recommenderTitle}</p>
+                    <p class="recs__meta">
+                      <span>{r.relationship}</span>
+                      {r.dateLabel && <span class="recs__date">· {r.dateLabel}</span>}
+                    </p>
+                  </div>
+                </header>
+
+                <blockquote class="recs__quote">“{r.quote}”</blockquote>
+
+                {r.linkedinUrl && (
+                  <footer class="recs__foot">
+                    <a href={r.linkedinUrl} target="_blank" rel="noopener noreferrer" class="recs__link">
+                      <Icon name="simple-icons:linkedin" />
+                      {r.linkLabel ?? "View on LinkedIn"}
+                      <Icon name="tabler:arrow-up-right" />
+                    </a>
+                  </footer>
+                )}
+              </article>
+            ))
+          }
+        </div>
+      ) : (
+        <p class="section-empty card-glow" data-reveal>
+          Recommendations will be published here soon.
+        </p>
+      )
+    }
+
+  </div>
+</section>
+
+<style>
+  .recs__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .section-empty {
+    margin: 0;
+    padding: 1.1rem 1.2rem;
+    color: var(--color-fg-muted);
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 900px) {
+    .recs__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .recs__card {
+    padding: 1.4rem 1.4rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+    height: 100%;
+  }
+
+  .recs__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .recs__quote-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(167, 139, 250, 0.15));
+    color: var(--color-accent);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  .recs__quote-icon :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .recs__person h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+
+  .recs__title {
+    margin: 0.25rem 0 0;
+    color: var(--color-fg-muted);
+    font-size: 0.86rem;
+  }
+
+  .recs__meta {
+    margin: 0.25rem 0 0;
+    color: var(--color-fg-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.73rem;
+  }
+
+  .recs__date {
+    color: var(--color-accent);
+  }
+
+  .recs__quote {
+    margin: 0;
+    color: var(--color-fg-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .recs__foot {
+    margin-top: auto;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .recs__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-fg-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: color 180ms ease;
+  }
+
+  .recs__link:hover {
+    color: var(--color-accent);
+  }
+
+  .recs__link :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+</style>
