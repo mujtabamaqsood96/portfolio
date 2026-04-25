@@ -37,6 +37,10 @@ export type AcademicStructure = {
     credits: number;
   }[];
   coreCoursework: string[];
+  semesterPlan: {
+    semester: string;
+    courses: string[];
+  }[];
 };
 
 export const education: EducationItem[] = [
@@ -266,5 +270,111 @@ export const academicStructure: AcademicStructure = {
     "Robotics and Automation",
     "Autonomous Robot Systems",
     "Image Processing and Machine Vision",
+  ],
+  semesterPlan: [
+    {
+      semester: "Semester 1",
+      courses: [
+        "Penghayatan Etika dan Peradaban / BM Komunikasi 2",
+        "Introduction to Oil & Gas Industry & Sustainable Development",
+        "Ethics and Integrity",
+        "Engineering Mathematics 1",
+        "Structured Programming and Interfacing",
+        "Circuit Theory",
+      ],
+    },
+    {
+      semester: "Semester 2",
+      courses: [
+        "Falsafah dan Isu Semasa / Malaysian Studies 3",
+        "Health, Safety & Environment",
+        "Engineering Mathematics 2",
+        "Object Oriented Programming",
+        "Digital Electronics",
+      ],
+    },
+    {
+      semester: "Semester 3",
+      courses: [
+        "U2 University Course",
+        "Academic Writing",
+        "Scientific Inquiry 2",
+        "Software Engineering",
+        "Discrete Mathematics",
+        "Co Curriculum I",
+      ],
+    },
+    {
+      semester: "Semester 4",
+      courses: [
+        "U3 University Course",
+        "Professional Communication Skills",
+        "Signals and Systems",
+        "Algorithm and Data Structure",
+        "Operating Systems",
+        "Digital Twin",
+      ],
+    },
+    {
+      semester: "Semester 5",
+      courses: [
+        "Data Analytics",
+        "Engineering Team Project 1",
+        "Linear Algebra and Matrix Methods",
+        "Communication Systems",
+        "Entrepreneurship",
+      ],
+    },
+    {
+      semester: "Semester 6",
+      courses: [
+        "Community Engagement Project",
+        "Co Curriculum II",
+        "Instrumentation and Control",
+        "Engineering Team Project 2",
+        "Microprocessor and Computer Architecture",
+      ],
+    },
+    {
+      semester: "Semester 7",
+      courses: [
+        "Embedded and IoT Systems",
+        "Digital System Design",
+        "Data and Computer Network",
+        "Cloud System Technologies",
+      ],
+    },
+    {
+      semester: "Internship Block",
+      courses: ["Student Industrial Training", "Student Industrial Project"],
+    },
+    {
+      semester: "Semester 8",
+      courses: [
+        "Project Management",
+        "Probability and Random Process",
+        "System Integrated Design Project",
+        "Core Specialisation I",
+        "Computer Security",
+      ],
+    },
+    {
+      semester: "Semester 9",
+      courses: [
+        "Engineering Economics",
+        "Artificial Intelligence and Applications",
+        "Final Year Project I",
+        "Core Specialisation II",
+      ],
+    },
+    {
+      semester: "Semester 10",
+      courses: [
+        "Engineers in Society",
+        "Final Year Project II",
+        "Distributed and Parallel Processing",
+        "Core Specialisation III",
+      ],
+    },
   ],
 };
