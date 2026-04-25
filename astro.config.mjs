@@ -26,7 +26,7 @@ import icon from "astro-icon";
 
 export default defineConfig({
   site: "https://mujtabamaqsood96.github.io",
-  base: "/",
+  base: "/portfolio/",
   trailingSlash: "ignore",
   output: "static",
   integrations: [icon(), sitemap()],
