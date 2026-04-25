@@ -1,8 +1,12 @@
 ---
 import { Icon } from "astro-icon/components";
+import { withBase } from "@/lib/withBase.ts";
 import { profile } from "@data/profile.ts";
 import { recommendations } from "@data/recommendations.ts";
 import { certifications, honors } from "@data/education.ts";
+
+const photoSrc = withBase(profile.photo);
+const photoFallback = withBase("/portrait/profile-placeholder.svg");
 
 const impactCards = [
   {
@@ -97,11 +101,11 @@ const impactCards = [
     <aside class="hero__visual" data-reveal style="transition-delay:420ms">
       <div class="hero__photo-wrap card-glow">
         <img
-          src={profile.photo}
+          src={photoSrc}
           alt={`${profile.name} portrait`}
           class="hero__photo"
           loading="eager"
-          onerror="this.onerror=null;this.src='/portrait/profile-placeholder.svg';"
+          onerror={`this.onerror=null;this.src=${JSON.stringify(photoFallback)};`}
         />
       </div>
       <div class="hero__visual-note">

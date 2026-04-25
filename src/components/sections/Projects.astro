@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import SectionHeading from "@components/ui/SectionHeading.astro";
+import { withBase } from "@/lib/withBase.ts";
 import { projects } from "@data/projects.ts";
 
 const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort((a, b) =>
@@ -79,12 +80,12 @@ const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort((a, b) =>
                       type="button"
                       class="project__image-btn"
                       data-project-image
-                      data-project-image-src={p.image.src}
+                      data-project-image-src={withBase(p.image.src)}
                       data-project-image-alt={p.image.alt}
                       aria-label={`Open larger preview for ${p.title}`}
                     >
                       <img
-                        src={p.image.src}
+                        src={withBase(p.image.src)}
                         alt={p.image.alt}
                         class="project__image"
                         width={p.image.width ?? 1200}
@@ -115,7 +116,7 @@ const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort((a, b) =>
                 </ul>
 
                 <p class="project__details-row">
-                  <a href={`/projects/${p.slug}/`} class="project__details">
+                  <a href={withBase(`/projects/${p.slug}/`)} class="project__details">
                     <Icon name="tabler:arrow-narrow-right" />
                     View case study
                   </a>

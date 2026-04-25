@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import { withBase } from "@/lib/withBase.ts";
 import SectionHeading from "@components/ui/SectionHeading.astro";
 import { education, certifications, honors } from "@data/education.ts";
 
@@ -143,14 +144,14 @@ const remainingCertifications = certifications.slice(VISIBLE_CERTIFICATIONS);
                   )}
                   {h.image && (
                     <a
-                      href={h.image.src}
+                      href={withBase(h.image.src)}
                       target="_blank"
                       rel="noopener noreferrer"
                       class="edu__honor-photo-link"
                       aria-label={`View ${h.title} image`}
                     >
                       <img
-                        src={h.image.src}
+                        src={withBase(h.image.src)}
                         alt={h.image.alt}
                         class="edu__honor-photo"
                         width={1200}

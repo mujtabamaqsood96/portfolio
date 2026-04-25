@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import { withBase } from "@/lib/withBase.ts";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Footer from "@components/layout/Footer.astro";
 import Navbar from "@components/layout/Navbar.astro";
@@ -27,9 +28,9 @@ const highlights = project.highlights?.filter(Boolean) ?? [];
   <main id="main" class="section-pad project-detail">
     <div class="container-page">
       <nav class="project-detail__breadcrumbs" aria-label="Breadcrumb">
-        <a href="/" class="project-detail__crumb">Home</a>
+        <a href={withBase("/")} class="project-detail__crumb">Home</a>
         <span class="project-detail__crumb-sep" aria-hidden="true">/</span>
-        <a href="/#projects" class="project-detail__crumb">Projects</a>
+        <a href={`${withBase("/")}#projects`} class="project-detail__crumb">Projects</a>
         <span class="project-detail__crumb-sep" aria-hidden="true">/</span>
         <span class="project-detail__crumb project-detail__crumb--current">{project.title}</span>
       </nav>
@@ -76,7 +77,7 @@ const highlights = project.highlights?.filter(Boolean) ?? [];
           <figure class="project-detail__figure card-glow" data-reveal>
             <img
               class="project-detail__image"
-              src={project.image.src}
+              src={withBase(project.image.src)}
               alt={project.image.alt}
               width={project.image.width ?? 1200}
               height={project.image.height ?? 750}
@@ -127,7 +128,7 @@ const highlights = project.highlights?.filter(Boolean) ?? [];
         }
 
         <p class="project-detail__back">
-          <a href="/#projects" class="btn btn-primary">← All projects</a>
+          <a href={`${withBase("/")}#projects`} class="btn btn-primary">← All projects</a>
         </p>
       </div>
     </div>
