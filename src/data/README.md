@@ -16,7 +16,7 @@ relevant data file here.
 | `recommendations.ts` | LinkedIn recommendations/testimonials (recommender, role, relationship, quote text)   |
 | `projects.ts`     | Project cards: `slug` (for `/projects/{slug}/`), `highlights`, optional `body`, image, tech, links. |
 | `skills.ts`       | Grouped skill panels (Hardware, Software, Cloud/Tools, Languages)                        |
-| `education.ts`    | Degree, certifications, honors / awards                                                  |
+| `education.ts`    | Degree, academic structure (credits/CGPA/coursework), certifications, honors / awards    |
 
 ## Conventions
 

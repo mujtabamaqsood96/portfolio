@@ -21,7 +21,7 @@ export const skillGroups: SkillGroup[] = [
       { name: "Digital Logic Design", icon: "tabler:binary" },
       { name: "ARM Cortex-M", icon: "simple-icons:arm" },
       { name: "Embedded Systems", icon: "tabler:device-imac" },
-      { name: "IoT Protocols", icon: "tabler:broadcast" },
+      { name: "Embedded and IoT Systems", icon: "tabler:broadcast" },
     ],
   },
   {
@@ -33,7 +33,7 @@ export const skillGroups: SkillGroup[] = [
       { name: "C / C++", icon: "simple-icons:cplusplus" },
       { name: "Python", icon: "simple-icons:python" },
       { name: "Linux & Shell", icon: "simple-icons:linux" },
-      { name: "Web & API Development", icon: "tabler:api" },
+      { name: "Data Structures & Algorithms", icon: "tabler:binary-tree-2" },
     ],
   },
   {

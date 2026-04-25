@@ -27,6 +27,18 @@ export type Honor = {
   };
 };
 
+export type AcademicStructure = {
+  totalCredits: number;
+  minCgpa: number;
+  specialisation: string;
+  graduationBreakdown: {
+    code: string;
+    label: string;
+    credits: number;
+  }[];
+  coreCoursework: string[];
+};
+
 export const education: EducationItem[] = [
   {
     institution: "Universiti Teknologi PETRONAS",
@@ -229,3 +241,30 @@ export const honors: Honor[] = [
     },
   },
 ];
+
+export const academicStructure: AcademicStructure = {
+  totalCredits: 144,
+  minCgpa: 2.0,
+  specialisation: "Intelligent Robotics",
+  graduationBreakdown: [
+    { code: "NR", label: "National Requirement", credits: 10 },
+    { code: "UR", label: "University Requirement", credits: 15 },
+    { code: "CC", label: "Core Common", credits: 21 },
+    { code: "CD", label: "Core Discipline", credits: 75 },
+    { code: "CI", label: "Core Industrial Internship", credits: 14 },
+    { code: "CSp", label: "Core Specialisation", credits: 9 },
+  ],
+  coreCoursework: [
+    "Embedded and IoT Systems",
+    "Digital System Design",
+    "Microprocessor and Computer Architecture",
+    "Data and Computer Network",
+    "Cloud System Technologies",
+    "Artificial Intelligence and Applications",
+    "Distributed and Parallel Processing",
+    "Digital Twin",
+    "Robotics and Automation",
+    "Autonomous Robot Systems",
+    "Image Processing and Machine Vision",
+  ],
+};
