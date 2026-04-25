@@ -24,12 +24,19 @@ export const experience: ExperienceItem[] = [
     url: "https://www.latticesemi.com/",
     roles: [
       {
+        title: "Application Engineer",
+        start: "January 2026",
+        end: "Present",
+        description:
+          "Develop and deliver technical training for Field Application Engineers and channel partners; review lab materials and hands-on tutorials for accuracy; contribute to live and on-demand training. Deepening skills in FPGAs, digital design, training content development, web and API development, cloud services, user authentication, and technical communication.",
+      },
+      {
         title: "Application Engineer Intern",
         start: "May 2025",
         end: "December 2025",
         duration: "8 months",
         description:
-          "Collaborate with global silicon, software, and solutions engineers to develop and deliver high-quality technical training for Field Application Engineers and channel partners. Review lab materials and hands-on tutorials to ensure technical accuracy, and contribute to the creation of both live and on-demand training content. Strengthening skills in FPGAs, digital design, training content development, web and API development, cloud services, user authentication, and technical communication.",
+          "Collaborated with global silicon, software, and solutions engineers to develop and deliver technical training for Field Application Engineers and channel partners. Reviewed lab materials and hands-on tutorials for technical accuracy and contributed to live and on-demand training content. Built a strong foundation in FPGAs, digital design, training development, web and API work, cloud services, user authentication, and technical communication.",
       },
     ],
   },

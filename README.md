@@ -1,8 +1,8 @@
 # Mujtaba Khan — Portfolio
 
 Personal portfolio for **Mujtaba Khan** — Final-year Computer Engineering student
-(Intelligent Robotics) at Universiti Teknologi PETRONAS, Application Engineer
-Intern at Lattice Semiconductor.
+(Intelligent Robotics) at Universiti Teknologi PETRONAS, Application Engineer at
+Lattice Semiconductor.
 
 Built with **Astro 5**, **Tailwind CSS v4**, and **TypeScript**.
 Static-first, ships ~zero JS by default, deployed for free on **GitHub Pages**.

@@ -1,11 +1,12 @@
 ---
 import { Icon } from "astro-icon/components";
 import { profile } from "@data/profile.ts";
+import { certifications } from "@data/education.ts";
 import SectionHeading from "@components/ui/SectionHeading.astro";
 
 const stats = [
   { label: "Years building hardware/software", value: "3+", icon: "tabler:bolt" },
-  { label: "Active certifications", value: "4", icon: "tabler:certificate" },
+  { label: "Certifications earned", value: `${certifications.length}+`, icon: "tabler:certificate" },
   { label: "Spoken languages", value: "5", icon: "tabler:world" },
   { label: "Org leadership roles", value: "2", icon: "tabler:users" },
 ];
@@ -68,7 +69,7 @@ const stats = [
 <span class="t-out">{profile.location}</span>
 
 <span class="t-prompt">$</span> cat ~/now
-<span class="t-out">App. Eng. Intern @ Lattice Semiconductor</span>
+<span class="t-out">{profile.currentRoleLine}</span>
 
 <span class="t-prompt">$</span> cat ~/focus
 <span class="t-out">FPGA · Edge AI · Embedded · IoT</span></code></pre>
