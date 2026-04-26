@@ -62,7 +62,9 @@ const remainingCertifications = certifications.slice(VISIBLE_CERTIFICATIONS);
 
         <div class="edu__structure-meta">
           <span class="chip">Total Credits: {academicStructure.totalCredits}</span>
-          <span class="chip">Minimum CGPA: {academicStructure.minCgpa.toFixed(2)}</span>
+          {academicStructure.currentCgpa && (
+            <span class="chip">Current CGPA: {academicStructure.currentCgpa.toFixed(2)}</span>
+          )}
         </div>
 
         <details class="edu__subjects" data-reveal>
@@ -86,7 +88,7 @@ const remainingCertifications = certifications.slice(VISIBLE_CERTIFICATIONS);
           </div>
         </details>
 
-        <p class="edu__core-label">Core coursework completed or in progress</p>
+        <p class="edu__core-label">Core Coursework</p>
         <ul class="edu__core-chips" aria-label="Core coursework">
           {academicStructure.coreCoursework.map((course) => <li class="chip">{course}</li>)}
         </ul>

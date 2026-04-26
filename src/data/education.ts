@@ -29,7 +29,7 @@ export type Honor = {
 
 export type AcademicStructure = {
   totalCredits: number;
-  minCgpa: number;
+  currentCgpa?: number;
   specialisation: string;
   graduationBreakdown: {
     code: string;
@@ -248,7 +248,7 @@ export const honors: Honor[] = [
 
 export const academicStructure: AcademicStructure = {
   totalCredits: 144,
-  minCgpa: 2.0,
+  currentCgpa: 3.41,
   specialisation: "Intelligent Robotics",
   graduationBreakdown: [
     { code: "NR", label: "National Requirement", credits: 10 },
