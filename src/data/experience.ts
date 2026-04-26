@@ -22,14 +22,8 @@ export const experience: ExperienceItem[] = [
     location: "Penang, Malaysia",
     icon: "tabler:cpu",
     url: "https://www.latticesemi.com/",
+    totalDuration: "8 months",
     roles: [
-      {
-        title: "Application Engineer",
-        start: "January 2026",
-        end: "Present",
-        description:
-          "Develop and deliver technical training for Field Application Engineers and channel partners; review lab materials and hands-on tutorials for accuracy; contribute to live and on-demand training. Deepening skills in FPGAs, digital design, training content development, web and API development, cloud services, user authentication, and technical communication.",
-      },
       {
         title: "Application Engineer Intern",
         start: "May 2025",
