@@ -48,7 +48,7 @@ const impactCards = [
       <div class="hero__chips" data-reveal style="transition-delay:200ms">
         <span class="hero__chip">Open to graduate roles · December 2026</span>
         <span class="hero__chip">Cloud · AI · Robotics · IT · Networking · Industrial Automation</span>
-        <span class="hero__chip">Former Application Engineer Intern, Lattice (May-Dec 2025)</span>
+        <span class="hero__chip">Former Application Engineer Intern, Lattice Semiconductor (May-Dec 2025)</span>
       </div>
 
       <p class="hero__sub" data-reveal style="transition-delay:240ms">
@@ -111,10 +111,6 @@ const impactCards = [
           loading="eager"
           onerror={`this.onerror=null;this.src=${JSON.stringify(photoFallback)};`}
         />
-      </div>
-      <div class="hero__visual-note">
-        <Icon name="tabler:circle-check" />
-        <span>{profile.currentRoleLine}</span>
       </div>
     </aside>
 
@@ -427,28 +423,7 @@ const impactCards = [
   }
 
   .hero__scroll {
-    position: absolute;
-    left: 50%;
-    bottom: 2rem;
-    transform: translateX(-50%);
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    color: var(--color-fg-subtle);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    text-decoration: none;
-    animation: hero-bounce 2.6s ease-in-out infinite;
-    z-index: 0;
-  }
-
-  @media (max-width: 1023px) {
-    .hero__scroll {
-      display: none;
-    }
+    display: none;
   }
 
   .hero__scroll :global(svg) {

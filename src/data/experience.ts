@@ -30,12 +30,12 @@ export const experience: ExperienceItem[] = [
         end: "December 2025",
         duration: "8 months",
         description:
-          "Collaborated with global silicon, software, and solutions engineers to develop and deliver technical training for Field Application Engineers and channel partners. Reviewed lab materials and hands-on tutorials for technical accuracy and contributed to live and on-demand training content. Built a strong foundation in FPGAs, digital design, training development, web and API work, cloud services, user authentication, and technical communication.",
+          "Worked with global silicon, software, and solutions teams to deliver technical training for Field Application Engineers and channel partners. Supported both live and on-demand enablement delivery. Executed across FPGA workflows, digital system design, Verilog RTL, edge-AI integration, embedded and robotics prototyping, Linux and Python tooling, performance optimization, and cross-functional engineering communication.",
       },
     ],
   },
   {
-    company: "GDSC-UTP",
+    company: "Google Developer Student Clubs (GDSC) UTP",
     location: "Universiti Teknologi PETRONAS",
     icon: "tabler:code",
     totalDuration: "1 year 4 months",

@@ -42,7 +42,7 @@ export const projects: Project[] = [
   {
     slug: "lattice-amazing-hand",
     title: "Lattice AmazingHand",
-    year: "2025",
+    year: "2026",
     status: "Shipped",
     icon: "tabler:cpu",
     highlights: [
@@ -63,13 +63,6 @@ export const projects: Project[] = [
       height: 750,
     },
     tech: ["Edge AI", "Robotics", "Verilog RTL", "Lattice Nexus", "MobileNet V1", "Python GUI"],
-    links: [
-      {
-        label: "Request technical brief",
-        href: "mailto:mujtabamaqsood96@gmail.com?subject=Lattice%20AmazingHand%20Technical%20Brief",
-        icon: "tabler:mail",
-      },
-    ],
     featured: true,
   },
   {
@@ -103,13 +96,6 @@ export const projects: Project[] = [
       "Python GUI",
       "QuestaSim",
     ],
-    links: [
-      {
-        label: "Request training pack",
-        href: "mailto:mujtabamaqsood96@gmail.com?subject=Educational%20FPGA%20Reference%20Designs%20Training%20Pack",
-        icon: "tabler:mail",
-      },
-    ],
     featured: true,
   },
   {
@@ -142,14 +128,40 @@ export const projects: Project[] = [
       "Admin Dashboard",
       "Analytics",
     ],
+    featured: true,
+  },
+  {
+    slug: "data-challenge-5-connected-but-unequal",
+    title: "Data Challenge 5.0: Connected but Unequal",
+    year: "2025",
+    status: "Shipped",
+    icon: "tabler:chart-dots-3",
+    highlights: [
+      "Led a team to analyze regional digital-access disparities across Malaysian states",
+      "Built an interactive Tableau dashboard linking internet access and median income",
+      "Converted findings into actionable short-, medium-, and long-term policy recommendations",
+    ],
+    summary:
+      "Led the CodeCatalysts team project for Data Challenge 5.0, focused on regional disparities in digital access and opportunity in Malaysia. Built a narrative-driven analytics dashboard and presentation set that showed both connectivity gaps and socioeconomic impact patterns across states.",
+    body: [
+      "The project framed digital inequality as a compound issue that extends beyond access alone, highlighting affordability, usability, and real-world outcomes.",
+      "Our dashboard compared household internet penetration by state, visualized internet-access versus median-income relationships, and surfaced regional trends to support clearer public-sector and policy discussion.",
+      "The final deliverable combined insight storytelling with an interactive Tableau experience so judges and viewers could explore the analysis directly.",
+    ],
+    image: {
+      src: "/projects/data-challenge-5-dashboard.png",
+      alt: "CodeCatalysts Data Challenge 5.0 Tableau dashboard on digital access disparities in Malaysia.",
+      width: 1920,
+      height: 1080,
+    },
+    tech: ["Tableau", "Data Storytelling", "Data Analysis", "Dashboard Design", "Public Policy Insights"],
     links: [
       {
-        label: "Request platform demo",
-        href: "mailto:mujtabamaqsood96@gmail.com?subject=Lattice%20RemoteLab%20Platform%20Demo",
-        icon: "tabler:mail",
+        label: "Open Live Tableau Dashboard",
+        href: "https://public.tableau.com/app/profile/cc.solutions/viz/ConnectedbutUnequal-TechnologicalDisparities/01Overview",
+        icon: "tabler:link",
       },
     ],
-    featured: true,
   },
   {
     slug: "ev-digital-twin-aws",
@@ -168,13 +180,6 @@ export const projects: Project[] = [
       "The stack connects vehicle telemetry, models it in a digital-twin context, and surfaces range predictions in operator-friendly dashboards to support day-to-day energy decisions.",
     ],
     tech: ["AWS", "IoT Core", "SageMaker", "TwinMaker", "Grafana", "Python"],
-    links: [
-      {
-        label: "Request architecture summary",
-        href: "mailto:mujtabamaqsood96@gmail.com?subject=EV%20Digital%20Twin%20Architecture%20Summary",
-        icon: "tabler:mail",
-      },
-    ],
   },
   {
     slug: "methaware",
@@ -199,12 +204,79 @@ export const projects: Project[] = [
       height: 750,
     },
     tech: ["ESP8266", "C++", "IoT", "Gas Sensing", "Embedded Systems"],
+  },
+  {
+    slug: "xlerobot-open-source-fyp",
+    title: "XLeRobot Open-Source FYP",
+    year: "2026",
+    status: "In Progress",
+    icon: "tabler:robot-face",
+    highlights: [
+      "Final Year Project funded by Lattice Semiconductor",
+      "Open-source robotics development on XLeRobot with local AI inference",
+      "Hardware/software stack combining Lattice FPGAs and NVIDIA Jetson",
+    ],
+    summary:
+      "Currently developing my FYP around the open-source XLeRobot platform, focusing on practical embodied-AI workflows and deployable robotics architecture. The work is funded by Lattice Semiconductor and emphasizes reproducible integration between FPGA acceleration and edge AI compute.",
+    body: [
+      "This project explores real-world embodied AI development by combining robot hardware, perception, and control pipelines in an open-source ecosystem.",
+      "A core focus is building reliable, production-minded integration patterns between Lattice FPGA components and NVIDIA Jetson for low-latency, on-device execution.",
+    ],
+    image: {
+      src: "/projects/xlerobot-fyp.jpg",
+      alt: "XLeRobot FYP hardware platform setup in lab environment.",
+      width: 768,
+      height: 1024,
+    },
+    tech: [
+      "Open Source Robotics",
+      "XLeRobot",
+      "Lattice FPGA",
+      "NVIDIA Jetson",
+      "Edge AI",
+      "Embedded Systems",
+      "Computer Vision",
+    ],
     links: [
       {
-        label: "Request project brief",
-        href: "mailto:mujtabamaqsood96@gmail.com?subject=MethAWARE%20Project%20Brief",
-        icon: "tabler:mail",
+        label: "View XLeRobot on GitHub",
+        href: "https://github.com/Vector-Wangel/XLeRobot",
+        icon: "simple-icons:github",
       },
+    ],
+    featured: true,
+  },
+  {
+    slug: "nexusbot-emotion-aware-greeting-system",
+    title: "NexusBot: Emotion-Aware Interactive Greeting System",
+    year: "2026",
+    status: "Shipped",
+    icon: "tabler:robot",
+    highlights: [
+      "Emotion-aware greetings for kindergarten using real-time face and emotion analysis",
+      "Hybrid edge stack: FPGA wake/human detection plus local AI greeting generation on NVIDIA Jetson Orin AGX",
+      "Attendance logging, identity matching, and avatar + TTS response flow",
+    ],
+    summary:
+      "Built an emotion-aware AI companion system for kindergarten greetings, combining FPGA-based wake/human detection with local vision and language pipelines. The system personalizes responses using identity, emotion, and context signals while logging attendance and keeping processing privacy-conscious.",
+    body: [
+      "NexusBot was designed to replace static greeting systems with adaptive, real-time interactions for children in classroom environments.",
+      "The pipeline includes frame capture and wake logic on FPGA, emotion/identity analysis, LLM-driven context-aware response generation, and avatar + text-to-speech output.",
+      "For practical local deployment, models were run on NVIDIA Jetson Orin AGX to balance performance, privacy, and real-world usability.",
+      "A key engineering focus was balancing responsiveness and deployability across hardware options while preserving local processing for privacy.",
+    ],
+    tech: [
+      "FPGA",
+      "Lattice CrossLink-NX",
+      "NVIDIA Jetson Orin AGX",
+      "TensorFlow",
+      "DeepFace",
+      "YOLOv8",
+      "Ollama (Phi-3.5)",
+      "edge_tts",
+      "Computer Vision",
+    ],
+    links: [
     ],
   },
   {
@@ -224,13 +296,6 @@ export const projects: Project[] = [
       "The project prioritized predictable CRUD operations and a readable UI layer so the domain model could evolve without a rewrite.",
     ],
     tech: ["Java", "JavaFX", "OOP", "Desktop UI"],
-    links: [
-      {
-        label: "Request feature walkthrough",
-        href: "mailto:mujtabamaqsood96@gmail.com?subject=Library%20Management%20System%20Walkthrough",
-        icon: "tabler:mail",
-      },
-    ],
   },
 ];
 

@@ -2,12 +2,13 @@
 import { Icon } from "astro-icon/components";
 import { profile } from "@data/profile.ts";
 import { certifications } from "@data/education.ts";
+import { projects } from "@data/projects.ts";
 import SectionHeading from "@components/ui/SectionHeading.astro";
 
 const stats = [
   { label: "Years building hardware/software", value: "3+", icon: "tabler:bolt" },
   { label: "Certifications earned", value: `${certifications.length}+`, icon: "tabler:certificate" },
-  { label: "Spoken languages", value: "5", icon: "tabler:world" },
+  { label: "Projects delivered", value: `${projects.length}`, icon: "tabler:briefcase" },
   { label: "Org leadership roles", value: "2", icon: "tabler:users" },
 ];
 ---
@@ -16,8 +17,8 @@ const stats = [
   <div class="container-page">
     <SectionHeading
       label="about"
-      title="Engineer at the intersection of silicon, code, and ideas."
-      subtitle="A short look at who I am and what I'm working on."
+      title="Engineer focused on practical, real-world systems."
+      subtitle="A snapshot of my background, strengths, and the environments I work best in."
     />
 
     <div class="about__grid">
@@ -25,27 +26,26 @@ const stats = [
         <p class="about__lead">
           {profile.summary}
         </p>
-
         <ul class="about__highlights">
           <li>
             <Icon name="tabler:cpu" />
             <span>
-              <strong>Hardware-first thinker.</strong>
-              Comfortable working from RTL up to cloud-connected applications.
+              <strong>Systems mindset.</strong>
+              Comfortable across the stack from embedded/FPGA implementation to cloud-connected software.
             </span>
           </li>
           <li>
             <Icon name="tabler:brain" />
             <span>
-              <strong>Edge AI focused.</strong>
-              Building tiny ML on-device with FPGAs and microcontrollers.
+              <strong>Cross-domain adaptability.</strong>
+              Building practical solutions across AI, robotics, IT, networking, and industrial automation contexts.
             </span>
           </li>
           <li>
             <Icon name="tabler:notebook" />
             <span>
-              <strong>Teaches what I learn.</strong>
-              Authoring training content used by global engineering teams at Lattice.
+              <strong>Execution + communication.</strong>
+              Strong in implementation, documentation, and clear technical communication with multidisciplinary teams.
             </span>
           </li>
         </ul>
@@ -63,16 +63,13 @@ const stats = [
 <span class="t-out">{profile.name}</span>
 
 <span class="t-prompt">$</span> cat ~/role
-<span class="t-out">{profile.role}</span>
-
-<span class="t-prompt">$</span> cat ~/location
-<span class="t-out">{profile.location}</span>
+<span class="t-out">Computer Engineer</span>
 
 <span class="t-prompt">$</span> cat ~/now
 <span class="t-out">{profile.currentRoleLine}</span>
 
 <span class="t-prompt">$</span> cat ~/focus
-<span class="t-out">FPGA · Edge AI · Embedded · IoT</span></code></pre>
+<span class="t-out">Cloud · AI · Robotics · IT · Networking · Industrial Automation</span></code></pre>
         </div>
 
         <ul class="about__stats">

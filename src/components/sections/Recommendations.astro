@@ -25,6 +25,7 @@ import { recommendations } from "@data/recommendations.ts";
                   <div class="recs__person">
                     <h3>{r.recommenderName}</h3>
                     <p class="recs__title">{r.recommenderTitle}</p>
+                    {r.experienceLine && <p class="recs__exp">{r.experienceLine}</p>}
                     <p class="recs__meta">
                       <span>{r.relationship}</span>
                       {r.dateLabel && <span class="recs__date">· {r.dateLabel}</span>}
@@ -120,6 +121,13 @@ import { recommendations } from "@data/recommendations.ts";
     margin: 0.25rem 0 0;
     color: var(--color-fg-muted);
     font-size: 0.86rem;
+  }
+
+  .recs__exp {
+    margin: 0.28rem 0 0;
+    color: var(--color-fg-muted);
+    font-size: 0.84rem;
+    line-height: 1.38;
   }
 
   .recs__meta {

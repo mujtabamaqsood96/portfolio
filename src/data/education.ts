@@ -31,6 +31,7 @@ export type AcademicStructure = {
   totalCredits: number;
   currentCgpa?: number;
   specialisation: string;
+  industryContextCourse?: string;
   graduationBreakdown: {
     code: string;
     label: string;
@@ -47,7 +48,7 @@ export const education: EducationItem[] = [
   {
     institution: "Universiti Teknologi PETRONAS",
     degree: "Bachelor of Engineering — BE",
-    field: "Computer Engineering (Intelligent Robotics)",
+    field: "Computer Engineering",
     start: "January 2023",
     end: "December 2026",
     location: "Perak, Malaysia",
@@ -56,6 +57,38 @@ export const education: EducationItem[] = [
 ];
 
 export const certifications: Certification[] = [
+  {
+    name: "Timing Constraints Deep Dive with Radiant",
+    issuer: "Lattice Semiconductor",
+    issued: "Sep 2025",
+    icon: "tabler:cpu",
+  },
+  {
+    name: "Enabling Edge AI with Lattice Sensor Bridge & NVIDIA Holoscan",
+    issuer: "Lattice Semiconductor",
+    issued: "Aug 2025",
+    icon: "tabler:cpu",
+  },
+  {
+    name: "Hands-on Introduction to Linux Commands and Shell Scripting",
+    issuer: "IBM",
+    issued: "Aug 2025",
+    credentialId: "ZSQUMQ6GB9UM",
+    icon: "simple-icons:ibm",
+  },
+  {
+    name: "RISC-V Solutions with Lattice",
+    issuer: "Lattice Semiconductor",
+    issued: "Aug 2025",
+    icon: "tabler:cpu",
+  },
+  {
+    name: "Armv8-M Architecture Fundamentals",
+    issuer: "Arm",
+    issued: "Aug 2025",
+    credentialId: "EVAMP6ILSM66",
+    icon: "simple-icons:arm",
+  },
   {
     name: "Using Altera SoC FPGAs: An Introduction",
     issuer: "Intel",
@@ -81,15 +114,9 @@ export const certifications: Certification[] = [
     icon: "simple-icons:intel",
   },
   {
-    name: "Timing Constraints Deep Dive with Radiant",
+    name: "Application of AI in FPGAs for Vision and Audio Applications",
     issuer: "Lattice Semiconductor",
-    issued: "Sep 2025",
-    icon: "tabler:cpu",
-  },
-  {
-    name: "Enabling Edge AI with Lattice Sensor Bridge & NVIDIA Holoscan",
-    issuer: "Lattice Semiconductor",
-    issued: "Aug 2025",
+    issued: "Jul 2025",
     icon: "tabler:cpu",
   },
   {
@@ -102,32 +129,6 @@ export const certifications: Certification[] = [
     name: "iCE40 UltraPlus Device Architecture",
     issuer: "Lattice Semiconductor",
     issued: "Jun 2025",
-    icon: "tabler:cpu",
-  },
-  {
-    name: "Hands-on Introduction to Linux Commands and Shell Scripting",
-    issuer: "IBM",
-    issued: "Aug 2025",
-    credentialId: "ZSQUMQ6GB9UM",
-    icon: "simple-icons:ibm",
-  },
-  {
-    name: "RISC-V Solutions with Lattice",
-    issuer: "Lattice Semiconductor",
-    issued: "Aug 2025",
-    icon: "tabler:cpu",
-  },
-  {
-    name: "Armv8-M Architecture Fundamentals",
-    issuer: "Arm",
-    issued: "Aug 2025",
-    credentialId: "EVAMP6ILSM66",
-    icon: "simple-icons:arm",
-  },
-  {
-    name: "Application of AI in FPGAs for Vision and Audio Applications",
-    issuer: "Lattice Semiconductor",
-    issued: "Jul 2025",
     icon: "tabler:cpu",
   },
   {
@@ -183,16 +184,16 @@ export const certifications: Certification[] = [
     icon: "simple-icons:arm",
   },
   {
-    name: "Introduction to Networking",
-    issuer: "NVIDIA",
-    icon: "simple-icons:nvidia",
-  },
-  {
     name: "100 Days of Code: The Complete Python Pro Bootcamp",
     issuer: "London App Brewery",
     issued: "Nov 2024",
     credentialId: "UC-80193b13-7b36-4cfe-bfa8-749533e34f53",
     icon: "simple-icons:python",
+  },
+  {
+    name: "Introduction to Networking",
+    issuer: "NVIDIA",
+    icon: "simple-icons:nvidia",
   },
   {
     name: "AI/ML Workshop: Optical Character Recognition with Tensorflow",
@@ -203,9 +204,41 @@ export const certifications: Certification[] = [
 
 export const honors: Honor[] = [
   {
-    title: "Dean's List — May 2024 Semester",
+    title: "Finalist — Data Challenge 5.0",
+    issuer: "Data Challenge 5.0",
+    date: "2026",
+    icon: "tabler:rosette-discount-check",
+  },
+  {
+    title: "Top 10 — SEDEX (Science and Engineering Design Exhibition)",
+    issuer: "SEDEX",
+    date: "2025",
+    icon: "tabler:medal",
+  },
+  {
+    title: "Hive Five Award",
+    issuer: "Lattice Semiconductor",
+    date: "2025",
+    icon: "tabler:star",
+    image: {
+      src: "/awards/high-five-award-certificate.jpg",
+      alt: "Hive Five Award certificate from Lattice Semiconductor.",
+    },
+  },
+  {
+    title: "4th Place — Invent for the Planet 2025 (UTP Edition)",
+    issuer: "Texas A&M University · UTP",
+    date: "2025",
+    icon: "tabler:trophy",
+    image: {
+      src: "/awards/iftp-winning-photo.jpg",
+      alt: "Mujtaba's team accepting 4th place at Invent for the Planet 2025 (UTP Edition).",
+    },
+  },
+  {
+    title: "Dean's List — January 2025 Semester",
     issuer: "Universiti Teknologi PETRONAS",
-    date: "2024",
+    date: "2025",
     icon: "tabler:award",
   },
   {
@@ -219,30 +252,10 @@ export const honors: Honor[] = [
     },
   },
   {
-    title: "Dean's List — January 2025 Semester",
+    title: "Dean's List — May 2024 Semester",
     issuer: "Universiti Teknologi PETRONAS",
-    date: "2025",
+    date: "2024",
     icon: "tabler:award",
-  },
-  {
-    title: "4th Place — Invent for the Planet 2025 (UTP Edition)",
-    issuer: "Texas A&M University · UTP",
-    date: "2025",
-    icon: "tabler:trophy",
-    image: {
-      src: "/awards/iftp-winning-photo.jpg",
-      alt: "Mujtaba's team accepting 4th place at Invent for the Planet 2025 (UTP Edition).",
-    },
-  },
-  {
-    title: "Hive Five Award",
-    issuer: "Lattice Semiconductor",
-    date: "2025",
-    icon: "tabler:star",
-    image: {
-      src: "/awards/high-five-award-certificate.jpg",
-      alt: "Hive Five Award certificate from Lattice Semiconductor.",
-    },
   },
 ];
 
@@ -250,6 +263,7 @@ export const academicStructure: AcademicStructure = {
   totalCredits: 144,
   currentCgpa: 3.41,
   specialisation: "Intelligent Robotics",
+  industryContextCourse: "Introduction to Oil & Gas Industry and Sustainable Development",
   graduationBreakdown: [
     { code: "NR", label: "National Requirement", credits: 10 },
     { code: "UR", label: "University Requirement", credits: 15 },
@@ -259,17 +273,34 @@ export const academicStructure: AcademicStructure = {
     { code: "CSp", label: "Core Specialisation", credits: 9 },
   ],
   coreCoursework: [
+    "Circuit Theory",
+    "Structured Programming and Interfacing",
+    "Engineering Mathematics I",
+    "Digital Electronics",
+    "Engineering Mathematics II",
+    "Object Oriented Programming",
+    "Software Engineering",
+    "Discrete Mathematics",
+    "Signals and Systems",
+    "Operating Systems",
+    "Algorithm and Data Structure",
+    "Communication Systems",
     "Embedded and IoT Systems",
     "Digital System Design",
     "Microprocessor and Computer Architecture",
     "Data and Computer Network",
     "Cloud System Technologies",
-    "Artificial Intelligence and Applications",
-    "Distributed and Parallel Processing",
+    "Data Analytics",
+    "Linear Algebra and Matrix Methods",
     "Digital Twin",
-    "Robotics and Automation",
-    "Autonomous Robot Systems",
+    "Instrumentation and Control",
+    "Probability and Random Process",
     "Image Processing and Machine Vision",
+    "Computer Security",
+    "Artificial Intelligence and Applications",
+    "Autonomous Robot Systems",
+    "Distributed and Parallel Processing",
+    "Robotics and Automations",
   ],
   semesterPlan: [
     {

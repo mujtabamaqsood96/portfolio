@@ -9,8 +9,8 @@ export const profile = {
   firstName: "Mujtaba",
   lastName: "Khan",
   monogram: "MK",
-  role: "Computer Engineer (Intelligent Robotics)",
-  tagline: "Intelligent Robotics · FPGA · Edge AI · Embedded Systems",
+  role: "Computer Engineer",
+  tagline: "FPGA · Edge AI · Embedded Systems · Cloud",
   /** Short rotating subtitles for the hero terminal-style line. */
   taglineRotators: [
     "Designing for silicon.",
@@ -30,22 +30,24 @@ export const profile = {
   /** University email — shown as a secondary contact below the primary. */
   universityEmail: "mujtaba_22008474@utp.edu.my",
   phone: "+60 149367421",
+  qatarWhatsapp: "+974 55460177",
   /** All contact links rendered in Contact + Footer + Navbar. */
   socials: {
     linkedin: "https://www.linkedin.com/in/mujtabamaqsood96",
     github: "https://github.com/mujtabamaqsood96",
     email: "mailto:mujtabamaqsood96@gmail.com",
     phone: "tel:+60149367421",
+    whatsappQatar: "https://wa.me/97455460177",
   },
   /** Full summary as written on the CV. */
   summary:
-    "I completed an Application Engineer Internship at Lattice Semiconductor (May 2025 to December 2025), where I collaborated with global silicon, software, and solutions engineers to deliver technical training for Field Application Engineers and channel partners. I reviewed lab materials and hands-on tutorials for technical accuracy and contributed to both live and on-demand training content. I am completing a Bachelor of Engineering in Computer Engineering at Universiti Teknologi PETRONAS and now focus on expanding practical expertise across cloud systems, AI, robotics, IT, networking, and industrial automation.",
+    "I am a final-year Computer Engineering student at Universiti Teknologi PETRONAS. Open to roles across cloud, AI, robotics, IT, networking, and industrial automation-focused applications. My project work spans FPGA-based control and edge-AI systems, AI-driven interactive platforms, and AWS-based digital twin and analytics solutions. I completed an 8-month Application Engineer internship at Lattice Semiconductor (May to December 2025), and I am now pursuing graduate opportunities where I can contribute as a systems-oriented engineer.",
   /** Short summary for the About section header / OG description. */
   shortSummary:
     "Final-year Computer Engineering student open to graduate roles across cloud systems, AI, robotics, IT, networking, and industrial automation.",
   /** SEO + social card metadata. */
   meta: {
-    siteTitle: "Mujtaba Khan — Intelligent Robotics · FPGA · Edge AI",
+    siteTitle: "Mujtaba Khan — Computer Engineer · FPGA · Edge AI",
     siteDescription:
       "Portfolio of Mujtaba Khan — final-year Computer Engineering student at Universiti Teknologi PETRONAS, open to graduate roles across cloud systems, AI, robotics, IT, networking, and industrial automation.",
     keywords: [
@@ -54,7 +56,7 @@ export const profile = {
       "Edge AI",
       "Embedded Systems",
       "Computer Engineering",
-      "Intelligent Robotics",
+      "Computer Engineering",
       "Lattice Semiconductor",
       "UTP",
       "Portfolio",

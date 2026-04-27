@@ -19,6 +19,14 @@ const contactCards = [
     cta: "Give me a call",
   },
   {
+    label: "WhatsApp (Qatar)",
+    value: profile.qatarWhatsapp,
+    href: profile.socials.whatsappQatar,
+    icon: "simple-icons:whatsapp",
+    cta: "Chat on WhatsApp",
+    external: true,
+  },
+  {
     label: "LinkedIn",
     value: "linkedin.com/in/mujtabamaqsood96",
     href: profile.socials.linkedin,
@@ -85,16 +93,6 @@ const contactCards = [
       <a href={profile.socials.email} class="btn btn-primary">
         <Icon name="tabler:mail" />
         Email Me
-      </a>
-      <a
-        href={profile.resumeHref}
-        class="btn btn-ghost"
-        download={!profile.resumeHref.startsWith("http") ? "" : undefined}
-        target={profile.resumeHref.startsWith("http") ? "_blank" : undefined}
-        rel={profile.resumeHref.startsWith("http") ? "noopener noreferrer" : undefined}
-      >
-        <Icon name="tabler:download" />
-        {profile.resumeHref.startsWith("http") ? "View CV" : "Download CV (PDF)"}
       </a>
     </div>
   </div>

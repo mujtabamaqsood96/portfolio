@@ -4,9 +4,16 @@ import SectionHeading from "@components/ui/SectionHeading.astro";
 import { withBase } from "@/lib/withBase.ts";
 import { projects } from "@data/projects.ts";
 
-const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort((a, b) =>
-  a.localeCompare(b, undefined, { sensitivity: "base" }),
-);
+const projectsByDate = [...projects].sort((a, b) => {
+  const yearA = Number.parseInt(a.year, 10);
+  const yearB = Number.parseInt(b.year, 10);
+  if (Number.isFinite(yearA) && Number.isFinite(yearB) && yearA !== yearB) {
+    return yearB - yearA;
+  }
+  if (a.status === "In Progress" && b.status !== "In Progress") return -1;
+  if (b.status === "In Progress" && a.status !== "In Progress") return 1;
+  return a.title.localeCompare(b.title);
+});
 ---
 
 <section id="projects" class="section-pad" data-reveal>
@@ -18,42 +25,13 @@ const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort((a, b) =>
     />
 
     {
-      projects.length > 0 ? (
-        <div class="projects__filter-wrap" id="projects-filter-wrap" aria-label="Filter projects by technology">
-          <p class="projects__filter-label" id="projects-filter-label">
-            Filter by technology
-          </p>
-          <div class="projects__chips" role="group" aria-labelledby="projects-filter-label">
-            <button
-              type="button"
-              class="projects__chip is-active"
-              data-project-filter="all"
-              aria-pressed="true"
-            >
-              All
-            </button>
-            {
-              allTech.map((t) => (
-                <button
-                  type="button"
-                  class="projects__chip"
-                  data-project-filter={t}
-                  aria-pressed="false"
-                >
-                  {t}
-                </button>
-              ))
-            }
-          </div>
-        </div>
+      projectsByDate.length > 0 ? (
         <div class="projects__grid">
           {
-            projects.map((p, i) => (
+            projectsByDate.map((p, i) => (
               <article
                 class:list={["project card-glow", p.featured && "project--featured"]}
                 data-reveal
-                data-project-item
-                data-techn={JSON.stringify(p.tech)}
                 style={`transition-delay:${(i % 3) * 80}ms`}
               >
                 <header class="project__head">
@@ -115,13 +93,6 @@ const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort((a, b) =>
                   ))}
                 </ul>
 
-                <p class="project__details-row">
-                  <a href={withBase(`/projects/${p.slug}/`)} class="project__details">
-                    <Icon name="tabler:arrow-narrow-right" />
-                    View case study
-                  </a>
-                </p>
-
                 {(() => {
                   const validLinks = (p.links ?? []).filter((l) => l.href && l.href.trim() !== "#");
                   if (validLinks.length === 0) return null;
@@ -157,53 +128,6 @@ const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort((a, b) =>
 </section>
 
 <style>
-  .projects__filter-wrap {
-    margin-bottom: 1.35rem;
-  }
-
-  .projects__filter-label {
-    margin: 0 0 0.55rem;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-fg-subtle);
-  }
-
-  .projects__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-  }
-
-  .projects__chip {
-    margin: 0;
-    padding: 0.35rem 0.75rem;
-    border-radius: 999px;
-    border: 1px solid var(--color-border);
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--color-fg-muted);
-    font-family: var(--font-sans);
-    font-size: 0.78rem;
-    cursor: pointer;
-    transition:
-      border-color 180ms ease,
-      color 180ms ease,
-      background-color 180ms ease;
-  }
-
-  .projects__chip:hover,
-  .projects__chip:focus-visible {
-    border-color: rgba(34, 211, 238, 0.45);
-    color: var(--color-fg);
-  }
-
-  .projects__chip.is-active {
-    border-color: rgba(34, 211, 238, 0.55);
-    background: rgba(34, 211, 238, 0.1);
-    color: var(--color-accent);
-  }
-
   .projects__grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -396,29 +320,6 @@ const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort((a, b) =>
     font-size: 0.9rem;
     line-height: 1.6;
     flex: 1;
-  }
-
-  .project__details-row {
-    margin: 0 0 0.65rem;
-  }
-
-  .project__details {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--color-accent);
-    text-decoration: none;
-  }
-
-  .project__details :global(svg) {
-    width: 1rem;
-    height: 1rem;
-  }
-
-  .project__details:hover {
-    text-decoration: underline;
   }
 
   .project__media {
@@ -657,44 +558,4 @@ const allTech = [...new Set(projects.flatMap((p) => p.tech))].sort((a, b) =>
       if (lightboxCaption) lightboxCaption.textContent = "";
     });
   }
-</script>
-
-<script is:inline>
-  document.addEventListener("DOMContentLoaded", () => {
-    const root = document.getElementById("projects");
-    if (!root) return;
-    const items = root.querySelectorAll("[data-project-item]");
-    const chips = root.querySelectorAll("[data-project-filter]");
-
-    const apply = (/** @type {string} */ filter) => {
-      items.forEach((el) => {
-        const raw = el.getAttribute("data-techn");
-        let tags = [];
-        try {
-          tags = raw ? JSON.parse(raw) : [];
-        } catch {
-          tags = [];
-        }
-        const show = filter === "all" || tags.includes(filter);
-        if (show) {
-          el.removeAttribute("hidden");
-        } else {
-          el.setAttribute("hidden", "");
-        }
-      });
-      chips.forEach((c) => {
-        const f = c.getAttribute("data-project-filter") || "";
-        const isActive = f === filter;
-        c.setAttribute("aria-pressed", isActive ? "true" : "false");
-        c.classList.toggle("is-active", isActive);
-      });
-    };
-
-    chips.forEach((chip) => {
-      chip.addEventListener("click", () => {
-        const f = chip.getAttribute("data-project-filter");
-        if (f) apply(f);
-      });
-    });
-  });
 </script>
