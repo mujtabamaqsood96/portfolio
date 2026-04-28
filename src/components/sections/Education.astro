@@ -4,9 +4,14 @@ import { withBase } from "@/lib/withBase.ts";
 import SectionHeading from "@components/ui/SectionHeading.astro";
 import { academicStructure, education, certifications, honors } from "@data/education.ts";
 
-const VISIBLE_CERTIFICATIONS = 5;
-const topCertifications = certifications.slice(0, VISIBLE_CERTIFICATIONS);
-const remainingCertifications = certifications.slice(VISIBLE_CERTIFICATIONS);
+const TOP_PER_VENDOR = 2;
+const certificationsByVendor = certifications.reduce<Record<string, typeof certifications>>((acc, cert) => {
+  const vendor = cert.issuer ?? "Other";
+  if (!acc[vendor]) acc[vendor] = [];
+  acc[vendor].push(cert);
+  return acc;
+}, {});
+const certificationVendors = Object.entries(certificationsByVendor);
 ---
 
 <section id="education" class="section-pad">
@@ -100,66 +105,65 @@ const remainingCertifications = certifications.slice(VISIBLE_CERTIFICATIONS);
           <Icon name="tabler:certificate" />
           Certifications
         </h3>
-        <ul class="edu__list">
+        <div class="edu__cert-grid">
           {
-            topCertifications.map((c, i) => (
-              <li
-                class="edu__list-item card-glow"
-                data-reveal
-                style={`transition-delay:${i * 60}ms`}
-              >
-                <span class="edu__list-icon">
-                  <Icon name={c.icon ?? "tabler:certificate"} />
-                </span>
-                <div>
-                  <p class="edu__list-name">{c.name}</p>
-                  {c.issuer && <p class="edu__list-issuer">{c.issuer}</p>}
-                  {(c.issued || c.credentialId) && (
-                    <p class="edu__list-meta">
-                      {c.issued && <span>Issued {c.issued}</span>}
-                      {c.issued && c.credentialId && <span class="edu__list-dot">·</span>}
-                      {c.credentialId && (
-                        <span class="edu__list-credential">ID {c.credentialId}</span>
-                      )}
-                    </p>
-                  )}
-                </div>
-              </li>
-            ))
-          }
-        </ul>
-        {
-          remainingCertifications.length > 0 && (
-            <details class="edu__more" data-reveal>
-              <summary class="edu__more-summary">
-                <Icon name="tabler:chevron-down" />
-                Show {remainingCertifications.length} more certifications
-              </summary>
-              <ul class="edu__list edu__list--more">
-                {remainingCertifications.map((c) => (
-                  <li class="edu__list-item card-glow">
-                    <span class="edu__list-icon">
-                      <Icon name={c.icon ?? "tabler:certificate"} />
-                    </span>
-                    <div>
-                      <p class="edu__list-name">{c.name}</p>
-                      {c.issuer && <p class="edu__list-issuer">{c.issuer}</p>}
-                      {(c.issued || c.credentialId) && (
-                        <p class="edu__list-meta">
-                          {c.issued && <span>Issued {c.issued}</span>}
-                          {c.issued && c.credentialId && <span class="edu__list-dot">·</span>}
-                          {c.credentialId && (
-                            <span class="edu__list-credential">ID {c.credentialId}</span>
+            certificationVendors.map(([vendor, certs], i) => {
+              const top = certs.slice(0, TOP_PER_VENDOR);
+              const rest = certs.slice(TOP_PER_VENDOR);
+              return (
+                <article class="edu__cert-vendor card-glow" data-reveal style={`transition-delay:${i * 60}ms`}>
+                  <h4 class="edu__cert-vendor-title">{vendor}</h4>
+                  <ul class="edu__list edu__list--dense">
+                    {top.map((c) => (
+                      <li class="edu__list-item">
+                        <span class="edu__list-icon">
+                          <Icon name={c.icon ?? "tabler:certificate"} />
+                        </span>
+                        <div>
+                          <p class="edu__list-name">{c.name}</p>
+                          {(c.issued || c.credentialId) && (
+                            <p class="edu__list-meta">
+                              {c.issued && <span>Issued {c.issued}</span>}
+                              {c.issued && c.credentialId && <span class="edu__list-dot">·</span>}
+                              {c.credentialId && <span class="edu__list-credential">ID {c.credentialId}</span>}
+                            </p>
                           )}
-                        </p>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          )
-        }
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                  {rest.length > 0 && (
+                    <details class="edu__more">
+                      <summary class="edu__more-summary">
+                        <Icon name="tabler:chevron-down" />
+                        View All {vendor} Certs ({rest.length} more)
+                      </summary>
+                      <ul class="edu__list edu__list--dense edu__list--more">
+                        {rest.map((c) => (
+                          <li class="edu__list-item">
+                            <span class="edu__list-icon">
+                              <Icon name={c.icon ?? "tabler:certificate"} />
+                            </span>
+                            <div>
+                              <p class="edu__list-name">{c.name}</p>
+                              {(c.issued || c.credentialId) && (
+                                <p class="edu__list-meta">
+                                  {c.issued && <span>Issued {c.issued}</span>}
+                                  {c.issued && c.credentialId && <span class="edu__list-dot">·</span>}
+                                  {c.credentialId && <span class="edu__list-credential">ID {c.credentialId}</span>}
+                                </p>
+                              )}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
+                </article>
+              );
+            })
+          }
+        </div>
       </section>
 
       <!-- Honors -->
@@ -457,10 +461,40 @@ const remainingCertifications = certifications.slice(VISIBLE_CERTIFICATIONS);
     gap: 0.75rem;
   }
 
+  .edu__list--dense .edu__list-item {
+    padding: 0.8rem 0.85rem;
+    background: rgba(255, 255, 255, 0.015);
+    border-radius: 0.65rem;
+    border: 1px solid var(--color-border);
+  }
+
   .edu__list-item {
     display: flex;
     gap: 0.85rem;
     padding: 1rem 1.1rem;
+  }
+
+  .edu__cert-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  @media (min-width: 920px) {
+    .edu__cert-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .edu__cert-vendor {
+    padding: 0.95rem;
+  }
+
+  .edu__cert-vendor-title {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-display);
+    font-size: 0.94rem;
+    color: var(--color-fg);
   }
 
   .edu__list-icon {

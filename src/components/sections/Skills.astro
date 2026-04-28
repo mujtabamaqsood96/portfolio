@@ -2,6 +2,14 @@
 import { Icon } from "astro-icon/components";
 import SectionHeading from "@components/ui/SectionHeading.astro";
 import { skillGroups } from "@data/skills.ts";
+
+function toneByGroup(title: string): "hardware" | "software" | "cloud" | "neutral" {
+  const key = title.toLowerCase();
+  if (key.includes("hardware")) return "hardware";
+  if (key.includes("software")) return "software";
+  if (key.includes("cloud")) return "cloud";
+  return "neutral";
+}
 ---
 
 <section id="skills" class="section-pad">
@@ -19,6 +27,7 @@ import { skillGroups } from "@data/skills.ts";
             skillGroups.map((group, i) => (
               <article
                 class="skills__group card-glow"
+                data-tone={toneByGroup(group.title)}
                 data-reveal
                 style={`transition-delay:${i * 80}ms`}
               >
@@ -30,7 +39,7 @@ import { skillGroups } from "@data/skills.ts";
                 </header>
                 <ul class="skills__list">
                   {group.skills.map((s) => (
-                    <li class="skills__item">
+                    <li class="skills__item" data-tone={toneByGroup(group.title)}>
                       {s.icon && (
                         <span class="skills__icon">
                           <Icon name={s.icon} />
@@ -144,6 +153,24 @@ import { skillGroups } from "@data/skills.ts";
     color: var(--color-fg);
     background-color: rgba(255, 255, 255, 0.02);
     border-color: var(--color-border);
+  }
+
+  .skills__group[data-tone="hardware"] .skills__head-icon,
+  .skills__item[data-tone="hardware"] {
+    border-color: rgba(96, 165, 250, 0.35);
+    background-color: rgba(59, 130, 246, 0.08);
+  }
+
+  .skills__group[data-tone="software"] .skills__head-icon,
+  .skills__item[data-tone="software"] {
+    border-color: rgba(74, 222, 128, 0.3);
+    background-color: rgba(34, 197, 94, 0.08);
+  }
+
+  .skills__group[data-tone="cloud"] .skills__head-icon,
+  .skills__item[data-tone="cloud"] {
+    border-color: rgba(251, 146, 60, 0.35);
+    background-color: rgba(249, 115, 22, 0.09);
   }
 
   .skills__icon {

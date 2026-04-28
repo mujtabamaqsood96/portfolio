@@ -177,12 +177,12 @@ const links = [
   }
 
   .nav__link:hover,
-  .nav__link.is-active {
+  .nav__link.active {
     color: var(--color-fg);
   }
 
   .nav__link:hover::after,
-  .nav__link.is-active::after {
+  .nav__link.active::after {
     transform: scaleX(1);
   }
 
@@ -428,8 +428,8 @@ const links = [
         const top = visible[0];
         const link = linkBySection.get(top.target.id);
         if (!link) return;
-        linkBySection.forEach((l) => l.classList.remove("is-active"));
-        link.classList.add("is-active");
+        linkBySection.forEach((l) => l.classList.remove("active"));
+        link.classList.add("active");
       },
       { rootMargin: "-35% 0px -45% 0px", threshold: [0.05, 0.2, 0.5] },
     );
