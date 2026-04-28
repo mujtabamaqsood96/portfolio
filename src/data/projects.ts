@@ -272,7 +272,7 @@ export const projects: Project[] = [
       "TensorFlow",
       "DeepFace",
       "YOLOv8",
-      "Ollama (Phi-3.5)",
+      "Llama 3.2 Vision",
       "edge_tts",
       "Computer Vision",
     ],

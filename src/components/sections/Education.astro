@@ -74,8 +74,8 @@ const certificationVendors = Object.entries(certificationsByVendor);
 
         <details class="edu__subjects" data-reveal>
           <summary class="edu__subjects-summary">
-            <Icon name="tabler:list-details" />
-            View subjects taken / taking (semester-wise)
+            <Icon name="tabler:chevron-down" />
+            View Semester-by-Semester Coursework
           </summary>
           <div class="edu__subjects-grid">
             {
@@ -302,6 +302,11 @@ const certificationVendors = Object.entries(certificationsByVendor);
   .edu__subjects-summary :global(svg) {
     width: 14px;
     height: 14px;
+    transition: transform 180ms ease;
+  }
+
+  .edu__subjects[open] .edu__subjects-summary :global(svg) {
+    transform: rotate(180deg);
   }
 
   .edu__subjects-grid {
