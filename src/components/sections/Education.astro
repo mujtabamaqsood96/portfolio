@@ -121,11 +121,9 @@ const certificationVendors = Object.entries(certificationsByVendor);
                         </span>
                         <div>
                           <p class="edu__list-name">{c.name}</p>
-                          {(c.issued || c.credentialId) && (
+                          {c.issued && (
                             <p class="edu__list-meta">
                               {c.issued && <span>Issued {c.issued}</span>}
-                              {c.issued && c.credentialId && <span class="edu__list-dot">·</span>}
-                              {c.credentialId && <span class="edu__list-credential">ID {c.credentialId}</span>}
                             </p>
                           )}
                         </div>
@@ -146,11 +144,9 @@ const certificationVendors = Object.entries(certificationsByVendor);
                             </span>
                             <div>
                               <p class="edu__list-name">{c.name}</p>
-                              {(c.issued || c.credentialId) && (
+                              {c.issued && (
                                 <p class="edu__list-meta">
                                   {c.issued && <span>Issued {c.issued}</span>}
-                                  {c.issued && c.credentialId && <span class="edu__list-dot">·</span>}
-                                  {c.credentialId && <span class="edu__list-credential">ID {c.credentialId}</span>}
                                 </p>
                               )}
                             </div>
@@ -539,14 +535,6 @@ const certificationVendors = Object.entries(certificationsByVendor);
     font-family: var(--font-mono);
   }
 
-  .edu__list-dot {
-    color: var(--color-accent);
-  }
-
-  .edu__list-credential {
-    color: var(--color-accent-2);
-  }
-
   .edu__more {
     margin-top: 0.9rem;
     border: 1px dashed var(--color-border-strong);
@@ -731,6 +719,9 @@ const certificationVendors = Object.entries(certificationsByVendor);
     });
 
     eduLightboxClose?.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && eduLightbox.open) closeLightbox();
+    });
     eduLightbox.addEventListener("click", (event) => {
       if (event.target === eduLightbox) closeLightbox();
     });

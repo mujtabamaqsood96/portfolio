@@ -157,6 +157,15 @@ import { experience } from "@data/experience.ts";
 
   .timeline__card {
     padding: 1.25rem 1.25rem 1rem;
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  }
+
+  .timeline__card:hover,
+  .timeline__card:focus-within {
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 0 1px rgba(34, 211, 238, 0.2),
+      0 20px 42px -16px rgba(34, 211, 238, 0.28);
   }
 
   @media (min-width: 768px) {

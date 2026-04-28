@@ -12,7 +12,6 @@ export type Certification = {
   name: string;
   issuer?: string;
   issued?: string;
-  credentialId?: string;
   icon?: string;
 };
 
@@ -73,7 +72,6 @@ export const certifications: Certification[] = [
     name: "Hands-on Introduction to Linux Commands and Shell Scripting",
     issuer: "IBM",
     issued: "Aug 2025",
-    credentialId: "ZSQUMQ6GB9UM",
     icon: "simple-icons:ibm",
   },
   {
@@ -86,7 +84,6 @@ export const certifications: Certification[] = [
     name: "Armv8-M Architecture Fundamentals",
     issuer: "Arm",
     issued: "Aug 2025",
-    credentialId: "EVAMP6ILSM66",
     icon: "simple-icons:arm",
   },
   {
@@ -159,35 +156,30 @@ export const certifications: Certification[] = [
     name: "Foundations of Software Testing and Validation",
     issuer: "University of Leeds",
     issued: "Mar 2025",
-    credentialId: "YN1NZ6X2JOJL",
     icon: "tabler:school",
   },
   {
     name: "AI Infrastructure and Operations Fundamentals",
     issuer: "NVIDIA",
     issued: "Mar 2025",
-    credentialId: "7L4O4JJDUJK7",
     icon: "simple-icons:nvidia",
   },
   {
     name: "AI for All",
     issuer: "Microsoft",
     issued: "Feb 2025",
-    credentialId: "jkqj4pt6x8",
     icon: "simple-icons:microsoft",
   },
   {
     name: "Arm Cortex-M Processors Overview",
     issuer: "Arm",
     issued: "Feb 2025",
-    credentialId: "ZFZCX6BCUL6D",
     icon: "simple-icons:arm",
   },
   {
     name: "100 Days of Code: The Complete Python Pro Bootcamp",
     issuer: "London App Brewery",
     issued: "Nov 2024",
-    credentialId: "UC-80193b13-7b36-4cfe-bfa8-749533e34f53",
     icon: "simple-icons:python",
   },
   {

@@ -10,6 +10,7 @@ const contactCards = [
     href: profile.socials.email,
     icon: "tabler:mail",
     cta: "Send a message",
+    copyValue: profile.email,
   },
   {
     label: "Phone / WhatsApp",
@@ -17,6 +18,7 @@ const contactCards = [
     href: profile.socials.phone,
     icon: "tabler:phone",
     cta: "Give me a call",
+    copyValue: profile.phone,
   },
   {
     label: "WhatsApp (Qatar)",
@@ -25,6 +27,7 @@ const contactCards = [
     icon: "simple-icons:whatsapp",
     cta: "Chat on WhatsApp",
     external: true,
+    copyValue: profile.qatarWhatsapp,
   },
   {
     label: "LinkedIn",
@@ -57,26 +60,39 @@ const contactCards = [
     <div class="contact__cards">
       {
         contactCards.map((c, i) => (
-          <a
-            href={c.href}
-            class="contact__card card-glow"
-            data-reveal
-            style={`transition-delay:${i * 80}ms`}
-            target={c.external ? "_blank" : undefined}
-            rel={c.external ? "noopener noreferrer" : undefined}
-          >
+          <article class="contact__card card-glow" data-reveal style={`transition-delay:${i * 80}ms`}>
             <span class="contact__icon">
               <Icon name={c.icon} />
             </span>
             <div class="contact__body">
               <span class="contact__label">{c.label}</span>
-              <span class="contact__value">{c.value}</span>
-              <span class="contact__cta">
+              <span class="contact__value-row">
+                <span class="contact__value">{c.value}</span>
+                {c.copyValue && (
+                  <button
+                    type="button"
+                    class="contact__copy-btn"
+                    data-copy-text={c.copyValue}
+                    aria-label={`Copy ${c.label}`}
+                    title={`Copy ${c.label}`}
+                  >
+                    <Icon name="tabler:copy" class="contact__copy-icon contact__copy-icon--default" />
+                    <Icon name="tabler:check" class="contact__copy-icon contact__copy-icon--done" />
+                    <span class="contact__copy-tip">Copied!</span>
+                  </button>
+                )}
+              </span>
+              <a
+                href={c.href}
+                class="contact__cta"
+                target={c.external ? "_blank" : undefined}
+                rel={c.external ? "noopener noreferrer" : undefined}
+              >
                 {c.cta}
                 <Icon name="tabler:arrow-up-right" />
-              </span>
+              </a>
             </div>
-          </a>
+          </article>
         ))
       }
     </div>
@@ -87,6 +103,17 @@ const contactCards = [
       <a href={`mailto:${profile.universityEmail}`} class="contact__alt-link">
         {profile.universityEmail}
       </a>
+      <button
+        type="button"
+        class="contact__copy-btn contact__copy-btn--inline"
+        data-copy-text={profile.universityEmail}
+        aria-label="Copy university email"
+        title="Copy university email"
+      >
+        <Icon name="tabler:copy" class="contact__copy-icon contact__copy-icon--default" />
+        <Icon name="tabler:check" class="contact__copy-icon contact__copy-icon--done" />
+        <span class="contact__copy-tip">Copied!</span>
+      </button>
     </p>
 
     <div class="contact__cta-row" data-reveal style="transition-delay:440ms">
@@ -173,6 +200,14 @@ const contactCards = [
     white-space: nowrap;
   }
 
+  .contact__value-row {
+    margin-top: 0.2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
   .contact__cta {
     margin-top: 0.5rem;
     display: inline-flex;
@@ -181,6 +216,7 @@ const contactCards = [
     font-size: 0.8rem;
     color: var(--color-accent);
     transition: transform 200ms ease;
+    text-decoration: none;
   }
 
   .contact__cta :global(svg) {
@@ -191,6 +227,70 @@ const contactCards = [
 
   .contact__card:hover .contact__cta :global(svg) {
     transform: translate(2px, -2px);
+  }
+
+  .contact__copy-btn {
+    position: relative;
+    width: 1.7rem;
+    height: 1.7rem;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--color-fg-subtle);
+    cursor: pointer;
+  }
+
+  .contact__copy-btn--inline {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+  .contact__copy-btn:hover {
+    color: var(--color-accent);
+    border-color: rgba(34, 211, 238, 0.45);
+  }
+
+  .contact__copy-icon {
+    width: 14px;
+    height: 14px;
+    transition: opacity 180ms ease;
+  }
+
+  .contact__copy-icon--done {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .contact__copy-btn.is-copied .contact__copy-icon--default {
+    opacity: 0;
+  }
+
+  .contact__copy-btn.is-copied .contact__copy-icon--done {
+    opacity: 1;
+  }
+
+  .contact__copy-tip {
+    position: absolute;
+    top: -1.7rem;
+    right: 0;
+    font-size: 0.68rem;
+    font-family: var(--font-mono);
+    background: rgba(17, 17, 24, 0.95);
+    color: var(--color-accent);
+    border: 1px solid rgba(34, 211, 238, 0.4);
+    border-radius: 6px;
+    padding: 0.1rem 0.35rem;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 160ms ease, transform 160ms ease;
+    pointer-events: none;
+  }
+
+  .contact__copy-btn.is-copied .contact__copy-tip {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .contact__alt {
@@ -238,3 +338,21 @@ const contactCards = [
     height: 16px;
   }
 </style>
+
+<script>
+  const copyButtons = document.querySelectorAll<HTMLButtonElement>("[data-copy-text]");
+
+  copyButtons.forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const text = btn.dataset.copyText ?? "";
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.classList.add("is-copied");
+        window.setTimeout(() => btn.classList.remove("is-copied"), 2000);
+      } catch {
+        btn.classList.remove("is-copied");
+      }
+    });
+  });
+</script>

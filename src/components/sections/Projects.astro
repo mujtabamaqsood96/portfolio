@@ -183,6 +183,14 @@ function techTone(tech: string): "hardware" | "software" | "cloud" {
     opacity: 1;
   }
 
+  .project:hover,
+  .project:focus-within {
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 0 1px rgba(34, 211, 238, 0.2),
+      0 20px 44px -16px rgba(34, 211, 238, 0.3);
+  }
+
   .project--featured {
     border-color: rgba(34, 211, 238, 0.35);
   }
@@ -526,6 +534,9 @@ function techTone(tech: string): "hardware" | "software" | "cloud" {
     });
 
     lightboxClose?.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && lightbox.open) closeLightbox();
+    });
     lightbox.addEventListener("click", (event) => {
       if (event.target === lightbox) closeLightbox();
     });
